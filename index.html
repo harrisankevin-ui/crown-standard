@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior:smooth;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crown Standard — The World's Cleanest Hair Oil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs-gold': '#C4973F',
+            'cs-gold-light': '#D4AF60',
+            'cs-black': '#060606',
+            'cs-dark': '#0e0e0e',
+            'cs-charcoal': '#161616',
+            'cs-stone': '#D6D1C7',
+            'cs-cream': '#F0EDE6',
+          },
+          fontFamily: {
+            'inter': ['Inter', 'sans-serif'],
+            'cormorant': ['"Cormorant Garamond"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scrollbar-gutter: stable; }
+    body { font-family: 'Inter', sans-serif; color: #e0d8cc; background: #060606; margin: 0; padding: 0; overflow-x: hidden; }
+    .font-cormorant { font-family: 'Cormorant Garamond', serif; }
+    .gold-line { height: 1px; background: linear-gradient(to right, transparent, #C4973F55, transparent); }
+
+    /* Buttons */
+    .btn-gold {
+      display: inline-block; background: linear-gradient(135deg, #A8802A, #D4AF60);
+      color: #060606; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      font-size: 0.7rem; padding: 0.85rem 2rem; border: none; cursor: pointer; transition: all 0.25s ease;
+    }
+    .btn-gold:hover { background: linear-gradient(135deg, #D4AF60, #E8C96A); box-shadow: 0 8px 28px rgba(196,151,63,0.32); }
+    .btn-outline-gold {
+      display: inline-block; border: 1px solid #C4973F; color: #C4973F; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.7rem; padding: 0.85rem 2rem;
+      cursor: pointer; transition: all 0.25s ease; background: none;
+    }
+    .btn-outline-gold:hover { background: rgba(196,151,63,0.08); border-color: #D4AF60; color: #D4AF60; }
+
+    /* Ticker */
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .ticker-track { display: flex; width: max-content; animation: ticker 28s linear infinite; }
+    .ticker-track:hover { animation-play-state: paused; }
+
+    /* FAQ */
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 260px; }
+    .faq-plus { transition: transform 0.25s ease; display: inline-block; }
+    .faq-item.open .faq-plus { transform: rotate(45deg); }
+    .faq-item { cursor: pointer; }
+
+    /* Ingredient card */
+    .ing-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .ing-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+
+    /* Comparison table */
+    .cmp-yes { color: #C4973F; font-weight: 700; font-size: 1rem; }
+    .cmp-no { color: #555; font-weight: 700; font-size: 1rem; }
+
+    /* Announcement cycling */
+    .ann-text { transition: opacity 0.5s ease; }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    .reveal-d3 { transition-delay: 0.24s; }
+    .reveal-d4 { transition-delay: 0.32s; }
+    .reveal-d5 { transition-delay: 0.40s; }
+
+    /* ===== HERO ENTRANCE ===== */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-content { animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
+
+    /* ===== SWIPE HINTS (hidden on desktop) ===== */
+    .ing-swipe-hint, .nos-swipe-hint { display: none; }
+
+    /* ===== MOBILE RESPONSIVE ===== */
+    @media (max-width: 768px) {
+
+      /* ----- Nav ----- */
+      .nav-links { display: none !important; }
+      #nav-hamburger { display: flex !important; }
+      .nav-logo { width: 50px !important; height: 50px !important; }
+      .nav-brand-name { font-size: 15px !important; letter-spacing: 0.16em !important; }
+      .nav-brand-sub { font-size: 11px !important; }
+      /* Hide Shop Now from nav on mobile — hamburger drawer already has it */
+      .btn-gold-nav { display: none !important; }
+      /* Compact nav container */
+      .nav-inner {
+        padding-left: 16px !important; padding-right: 16px !important;
+        padding-top: 12px !important; padding-bottom: 12px !important;
+        gap: 0 !important;
+      }
+      /* Allow logo text area to shrink so hamburger never gets pushed off */
+      .nav-logo-link { gap: 8px !important; min-width: 0 !important; }
+      .nav-logo-link > div { min-width: 0 !important; overflow: hidden !important; }
+
+      /* ----- Hero ----- */
+      .hero-content { padding: 36px 20px 32px !important; }
+      .hero-ctas { flex-direction: column !important; }
+      .hero-ctas a { text-align: center !important; width: 100% !important; }
+      .hero-stats { gap: 14px !important; margin-top: 28px !important; }
+      .hero-stat-divider { display: none !important; }
+
+      /* ----- Product cards ----- */
+      .product-cards-grid { display: block !important; }
+      .product-cards-grid > div { padding: 24px 20px !important; }
+      #shop { padding: 48px 0 !important; }
+
+      /* ----- Spec bar ----- */
+      .spec-bar { gap: 18px !important; padding: 18px 16px !important; }
+      .spec-bar-divider { display: none !important; }
+
+      /* ----- 5 No's (hidden on mobile — desktop grid unaffected) ----- */
+      .nos-section { display: none !important; }
+      .nos-inner { padding-left: 0 !important; padding-right: 0 !important; overflow: hidden !important; }
+      .nos-grid {
+        display: flex !important;
+        overflow-x: scroll !important;
+        scroll-snap-type: x proximity !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        border: none !important;
+        gap: 10px !important;
+        padding: 0 24px 24px !important;
+        grid-template-columns: unset !important;
+      }
+      .nos-grid::-webkit-scrollbar { display: none !important; }
+      .nos-grid > div {
+        flex: 0 0 78% !important;
+        scroll-snap-align: start !important;
+        border: 1px solid #D4CFC8 !important;
+        padding: 36px 24px !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 200px !important;
+      }
+      .nos-swipe-hint { display: block !important; margin-top: 8px !important; }
+
+      /* ----- Ingredients (horizontal carousel) ----- */
+      .ing-section { padding: 52px 0 !important; }
+      .ing-grid {
+        display: flex !important;
+        overflow-x: scroll !important;
+        scroll-snap-type: x proximity !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        gap: 10px !important;
+        padding: 0 20px 24px !important;
+        grid-template-columns: unset !important;
+      }
+      .ing-grid::-webkit-scrollbar { display: none !important; }
+      .ing-card {
+        flex: 0 0 80% !important;
+        scroll-snap-align: start !important;
+        min-width: 0 !important;
+      }
+      .ing-card img { height: 220px !important; }
+      .ing-card > div:last-child { padding: 16px 18px !important; }
+      .ing-swipe-hint { display: block !important; margin-top: 8px !important; }
+
+      /* ----- Sourcing ----- */
+      .sourcing-section { padding: 52px 0 !important; }
+      .sourcing-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+
+      /* ----- Comparison table ----- */
+      .cmp-section { padding: 52px 0 !important; }
+      .cmp-table-wrap { display: none !important; }
+      .cmp-mobile-alt { display: block !important; }
+
+      /* ----- Ritual ----- */
+      .ritual-section { padding: 52px 0 !important; }
+      .ritual-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+
+      /* ----- FAQ ----- */
+      .faq-section { padding: 52px 0 !important; }
+      .faq-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .faq-sticky { position: static !important; top: auto !important; }
+
+      /* ----- Footer ----- */
+      .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .footer-bottom { flex-direction: column !important; align-items: flex-start !important; }
+      .footer-links { flex-wrap: wrap !important; gap: 12px !important; }
+
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       ANNOUNCEMENT BAR — rotating messages
+  ════════════════════════════════════════════════ -->
+  <div style="background:#0a0906; border-bottom:1px solid #141414; min-height:36px; display:flex; align-items:center; justify-content:center;">
+    <p id="ann-bar" class="ann-text" style="font-size:10px; letter-spacing:0.32em; color:#C4973F; text-transform:uppercase; text-align:center; padding:0 16px; margin:0;"></p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════ -->
+  <nav style="background:#000; border-bottom:1px solid #141414; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); position:sticky; top:0; z-index:50;">
+    <div class="nav-inner max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
+      <!-- Logo -->
+      <a href="#" class="nav-logo-link" style="display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0;">
+        <img src="images/logo/Logo final (1).png" alt="Crown Standard Logo" class="nav-logo" style="width:80px; height:80px; object-fit:contain; background:#000;"/>
+        <div style="line-height:1.35;">
+          <div class="nav-brand-name" style="font-family:'Cormorant Garamond',serif; font-size:19px; letter-spacing:0.26em; color:#fff; font-weight:700; text-transform:uppercase;">Crown Standard</div>
+          <div class="nav-brand-sub" style="font-size:13px; letter-spacing:0.12em; color:#C4973F; font-family:'Cormorant Garamond',serif; font-style:italic;">Pre-Wash Hair Oil</div>
+        </div>
+      </a>
+      <!-- Nav links -->
+      <div class="nav-links" style="display:flex; gap:36px; align-items:center;">
+        <a href="shop.html" style="font-size:13px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Shop</a>
+        <a href="#ingredients" style="font-size:13px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Ingredients</a>
+        <a href="#faq" style="font-size:13px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">FAQ</a>
+      </div>
+      <!-- Right actions -->
+      <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+        <a href="shop.html" class="btn-gold btn-gold-nav" style="font-size:9px; padding:0.6rem 1.4rem; text-decoration:none;">Shop Now</a>
+        <!-- Hamburger — mobile only -->
+        <button id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu" style="display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px;">
+          <span class="ham-bar" style="display:block; width:22px; height:2px; background:#C4973F; transition:all 0.25s ease;"></span>
+          <span class="ham-bar" style="display:block; width:22px; height:2px; background:#C4973F; transition:all 0.25s ease;"></span>
+          <span class="ham-bar" style="display:block; width:22px; height:2px; background:#C4973F; transition:all 0.25s ease;"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu drawer -->
+    <div id="mobile-menu" style="display:none; background:#000; border-top:1px solid #141414; padding:20px 24px; flex-direction:column; gap:18px;">
+      <a href="shop.html" style="font-size:14px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500;">Shop</a>
+      <a href="#ingredients" onclick="closeMobileMenu()" style="font-size:14px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500;">Ingredients</a>
+      <a href="#faq" onclick="closeMobileMenu()" style="font-size:14px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500;">FAQ</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO — "The World's Cleanest Hair Oil."
+  ════════════════════════════════════════════════ -->
+  <section style="min-height:82vh; background:#F0EDE6; position:relative; display:flex; flex-direction:column; justify-content:center; overflow:hidden;">
+    <!-- Background editorial image -->
+    <div style="position:absolute; inset:0; z-index:0;">
+      <img src="https://placehold.co/1600x900/F0EDE6/D4CFC8?text=" alt="" style="width:100%; height:100%; object-fit:cover; opacity:0.4;"/>
+      <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(240,237,230,0.88) 0%, rgba(240,237,230,0.55) 50%, rgba(240,237,230,0.82) 100%);"></div>
+    </div>
+
+    <!-- Content -->
+    <div style="position:relative; z-index:1; max-width:960px; margin:0 auto; padding:52px 48px 44px;" class="w-full hero-content">
+
+      <!-- Eyebrow -->
+      <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:24px;">
+        <div style="width:32px; height:1px; background:#8B6914;"></div>
+        <span style="font-size:9px; letter-spacing:0.38em; color:#7a5a10; text-transform:uppercase; font-weight:600;">Crown Standard · Pre-Wash Hair Oil</span>
+      </div>
+
+      <!-- Massive headline -->
+      <h1 class="font-cormorant" style="font-size:clamp(46px, 7vw, 86px); font-weight:700; color:#1a1208; line-height:1.0; letter-spacing:-0.01em; margin:0 0 24px; max-width:740px;">
+        The World's<br>Cleanest Hair Oil.
+      </h1>
+
+      <!-- Subheadline -->
+      <p style="font-size:clamp(13px, 1.5vw, 16px); color:#5a4428; line-height:1.75; max-width:440px; margin:0 0 36px; font-weight:400;">
+        Pure pre-wash oils for your scalp and hair. No fillers. No fragrance. No synthetic additives. Just oils that work.
+      </p>
+
+      <!-- CTAs -->
+      <div class="hero-ctas" style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="shop.html?formula=curl" class="btn-gold" style="font-size:10px; padding:1rem 2.2rem; text-decoration:none;">Shop Curl Standard</a>
+        <a href="shop.html?formula=wavy" style="font-size:10px; padding:1rem 2.2rem; text-decoration:none; display:inline-block; border:1px solid #8B6914; color:#7a5a10; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; transition:all 0.25s ease;" onmouseover="this.style.background='rgba(139,105,20,0.08)'" onmouseout="this.style.background='none'">Shop Straight Standard</a>
+      </div>
+
+      <!-- Bottom stat row -->
+      <div class="hero-stats" style="display:flex; gap:32px; margin-top:48px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:9px; letter-spacing:0.3em; color:#7a5a10; text-transform:uppercase;">Two Formulas</div>
+          <div style="font-size:11px; color:#5a4428; letter-spacing:0.15em; text-transform:uppercase; margin-top:2px;">Built for your hair type</div>
+        </div>
+        <div class="hero-stat-divider" style="width:1px; background:#C8C0B0;"></div>
+        <div>
+          <div style="font-size:9px; letter-spacing:0.3em; color:#7a5a10; text-transform:uppercase;">Five Oils</div>
+          <div style="font-size:11px; color:#5a4428; letter-spacing:0.15em; text-transform:uppercase; margin-top:2px;">Every one chosen for a reason</div>
+        </div>
+        <div class="hero-stat-divider" style="width:1px; background:#C8C0B0;"></div>
+        <div>
+          <div style="font-size:9px; letter-spacing:0.3em; color:#7a5a10; text-transform:uppercase;">Made in Canada</div>
+          <div style="font-size:11px; color:#5a4428; letter-spacing:0.15em; text-transform:uppercase; margin-top:2px;">Crafted with intention</div>
+        </div>
+        <div class="hero-stat-divider" style="width:1px; background:#C8C0B0;"></div>
+        <div>
+          <div style="font-size:9px; letter-spacing:0.3em; color:#7a5a10; text-transform:uppercase;">Zero Fillers</div>
+          <div style="font-size:11px; color:#5a4428; letter-spacing:0.15em; text-transform:uppercase; margin-top:2px;">No fragrance. No additives.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SCROLLING TICKER
+  ════════════════════════════════════════════════ -->
+  <div style="background:#0a0906; border-top:1px solid #141414; border-bottom:1px solid #141414; padding:14px 0; overflow:hidden;">
+    <div class="ticker-track">
+      <span style="white-space:nowrap; font-size:11px; letter-spacing:0.35em; color:#888; text-transform:uppercase; padding-right:48px;">No Fillers &nbsp;·&nbsp; No Fragrance &nbsp;·&nbsp; Made in Canada &nbsp;·&nbsp; Cold Pressed &nbsp;·&nbsp; Two Formulas &nbsp;·&nbsp; Five Oils &nbsp;·&nbsp; Pre-Wash Treatment &nbsp;·&nbsp; No Synthetic Additives &nbsp;·&nbsp; No Preservatives &nbsp;·&nbsp; Organic Sourced &nbsp;·&nbsp;</span>
+      <span style="white-space:nowrap; font-size:11px; letter-spacing:0.35em; color:#888; text-transform:uppercase; padding-right:48px;">No Fillers &nbsp;·&nbsp; No Fragrance &nbsp;·&nbsp; Made in Canada &nbsp;·&nbsp; Cold Pressed &nbsp;·&nbsp; Two Formulas &nbsp;·&nbsp; Five Oils &nbsp;·&nbsp; Pre-Wash Treatment &nbsp;·&nbsp; No Synthetic Additives &nbsp;·&nbsp; No Preservatives &nbsp;·&nbsp; Organic Sourced &nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       PRODUCT SECTION — Two Equal Cards
+  ════════════════════════════════════════════════ -->
+  <section id="shop" style="background:#060606; padding:72px 0;">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Eyebrow -->
+      <div class="reveal" style="text-align:center; margin-bottom:56px;">
+        <div style="display:inline-flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <div style="width:32px; height:1px; background:#C4973F44;"></div>
+          <span style="font-size:12px; letter-spacing:0.38em; color:#C4973F; text-transform:uppercase;">Two Formulas. One Standard.</span>
+          <div style="width:32px; height:1px; background:#C4973F44;"></div>
+        </div>
+        <p style="font-size:16px; color:#aaa; letter-spacing:0.04em; max-width:480px; margin:0 auto; line-height:1.7;">Different hair types need different oil profiles. Same standard across both.</p>
+      </div>
+
+      <!-- Cards -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px;" class="block md:grid product-cards-grid">
+
+        <!-- CARD 1: Curl Standard -->
+        <div class="reveal reveal-d1" style="background:#0a0806; border:1px solid #1e1e1e; border-top:3px solid #C4973F; padding:38px 36px; display:flex; flex-direction:column;">
+          <h2 class="font-cormorant" style="font-size:clamp(30px,4vw,46px); font-weight:700; color:#fff; line-height:1.05; margin:0 0 16px;">Curl Standard</h2>
+          <p style="font-size:16px; color:#aaa; line-height:1.8; max-width:340px; margin:0 0 28px;">Richer pre-wash oil for curly, coarse, or dry hair. Deep scalp conditioning with a heavier oil profile built for texture and nourishment.</p>
+          <div style="margin-bottom:32px;">
+            <div style="font-size:13px; letter-spacing:0.25em; color:#888; text-transform:uppercase; margin-bottom:10px;">Key Oils</div>
+            <div style="font-size:15px; color:#bbb; letter-spacing:0.06em; line-height:1.9;">
+              Pumpkin Seed &nbsp;·&nbsp; Coconut &nbsp;·&nbsp; Almond &nbsp;·&nbsp; Flax Seed &nbsp;·&nbsp; Castor
+            </div>
+          </div>
+          <div style="margin-top:auto;">
+            <div style="font-size:14px; letter-spacing:0.2em; color:#aaa; text-transform:uppercase; margin-bottom:20px;">$39.00 CAD &nbsp;·&nbsp; 60 ML</div>
+            <a href="shop.html?formula=curl" class="btn-gold" style="width:100%; text-align:center; padding:1rem; text-decoration:none; display:block;">Shop Curl Standard</a>
+          </div>
+        </div>
+
+        <!-- CARD 2: Straight Standard -->
+        <div class="reveal reveal-d2" style="background:#0d0b08; border:1px solid #1e1e1e; border-top:3px solid #C4973F55; padding:38px 36px; display:flex; flex-direction:column;">
+          <h2 class="font-cormorant" style="font-size:clamp(30px,4vw,46px); font-weight:700; color:#fff; line-height:1.05; margin:0 0 16px;">Straight Standard</h2>
+          <p style="font-size:16px; color:#aaa; line-height:1.8; max-width:340px; margin:0 0 28px;">Lightweight pre-wash oil for straight, wavy, or finer hair. Balanced scalp care and conditioning without heaviness or buildup.</p>
+          <div style="margin-bottom:32px;">
+            <div style="font-size:13px; letter-spacing:0.25em; color:#888; text-transform:uppercase; margin-bottom:10px;">Key Oils</div>
+            <div style="font-size:15px; color:#bbb; letter-spacing:0.06em; line-height:1.9;">
+              Pumpkin Seed &nbsp;·&nbsp; Coconut &nbsp;·&nbsp; Almond &nbsp;·&nbsp; Flax Seed &nbsp;·&nbsp; Black Seed
+            </div>
+          </div>
+          <div style="margin-top:auto;">
+            <div style="font-size:14px; letter-spacing:0.2em; color:#aaa; text-transform:uppercase; margin-bottom:20px;">$39.00 CAD &nbsp;·&nbsp; 60 ML</div>
+            <a href="shop.html?formula=wavy" style="width:100%; text-align:center; padding:1rem; display:block; border:1.5px solid #C4973F; color:#C4973F; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; font-size:0.7rem; cursor:pointer; transition:all 0.25s ease; background:none; text-decoration:none;" onmouseover="this.style.background='rgba(196,151,63,0.08)'" onmouseout="this.style.background='none'">Shop Straight Standard</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shared spec bar -->
+      <div class="spec-bar reveal" style="display:flex; justify-content:center; gap:40px; padding:24px 0; border-top:1px solid #1e1e1e; border-bottom:1px solid #1e1e1e; margin-top:2px; flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:13px; letter-spacing:0.28em; color:#C4973F; text-transform:uppercase;">Single Cold Pressed</div>
+          <div style="font-size:13px; color:#777; letter-spacing:0.15em; text-transform:uppercase; margin-top:4px;">Extraction</div>
+        </div>
+        <div class="spec-bar-divider" style="width:1px; background:#1e1e1e;"></div>
+        <div style="text-align:center;">
+          <div style="font-size:13px; letter-spacing:0.28em; color:#C4973F; text-transform:uppercase;">100% Natural</div>
+          <div style="font-size:13px; color:#777; letter-spacing:0.15em; text-transform:uppercase; margin-top:4px;">No Synthetics</div>
+        </div>
+        <div class="spec-bar-divider" style="width:1px; background:#1e1e1e;"></div>
+        <div style="text-align:center;">
+          <div style="font-size:13px; letter-spacing:0.28em; color:#C4973F; text-transform:uppercase;">Made in Canada</div>
+          <div style="font-size:13px; color:#777; letter-spacing:0.15em; text-transform:uppercase; margin-top:4px;">Origin</div>
+        </div>
+        <div class="spec-bar-divider" style="width:1px; background:#1e1e1e;"></div>
+        <div style="text-align:center;">
+          <div style="font-size:13px; letter-spacing:0.28em; color:#C4973F; text-transform:uppercase;">2 oz / 60 ml</div>
+          <div style="font-size:13px; color:#777; letter-spacing:0.15em; text-transform:uppercase; margin-top:4px;">Bottle Size</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       "THE CROWN STANDARD" — 5 No's
+  ════════════════════════════════════════════════ -->
+  <section class="nos-section" style="background:#F0EDE6; border-top:1px solid #D4CFC8; border-bottom:1px solid #D4CFC8; padding:96px 24px;">
+    <div class="nos-inner max-w-5xl mx-auto" style="text-align:center;">
+      <div class="reveal" style="display:inline-flex; align-items:center; gap:12px; margin-bottom:20px;">
+        <div style="width:32px; height:1px; background:#8B691433;"></div>
+        <span style="font-size:12px; letter-spacing:0.38em; color:#7a5a10; text-transform:uppercase;">Our Promise</span>
+        <div style="width:32px; height:1px; background:#8B691433;"></div>
+      </div>
+      <h2 class="font-cormorant" style="font-size:clamp(36px,5vw,56px); font-weight:700; color:#1a1208; line-height:1.05; margin:0 0 16px;">The Crown Standard.</h2>
+      <p style="font-size:16px; color:#5a4428; max-width:440px; margin:0 auto 64px; line-height:1.75;">What we put in our formulas matters. What we leave out matters more.</p>
+
+      <!-- 5 No's grid -->
+      <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:0; border:1px solid #D4CFC8;" class="grid-cols-1 sm:grid-cols-5 nos-grid">
+
+        <div class="reveal reveal-d1" style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Fillers.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">Every drop is functional.</p>
+        </div>
+
+        <div class="reveal reveal-d2" style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Fragrance.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">The only scent is the oil itself.</p>
+        </div>
+
+        <div class="reveal reveal-d3" style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Synthetics.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">Nothing that doesn't belong.</p>
+        </div>
+
+        <div class="reveal reveal-d4" style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Preservatives.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">Cold-pressed. Shelf-stable. Clean.</p>
+        </div>
+
+        <div class="reveal reveal-d5" style="padding:40px 28px;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Compromise.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">The standard applies to everything.</p>
+        </div>
+
+      </div>
+      <p class="nos-swipe-hint" style="font-size:10px; letter-spacing:0.22em; color:#7a5a10; text-transform:uppercase; margin:0; padding:0 20px;">← Swipe →</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       INGREDIENTS — Stock Photo Boxes
+  ════════════════════════════════════════════════ -->
+  <section id="ingredients" class="ing-section" style="background:#060606; border-top:1px solid #141414; padding:72px 0;">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal" style="text-align:center; margin-bottom:60px;">
+        <div style="display:inline-flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:32px; height:1px; background:#C4973F55;"></div>
+          <span style="font-size:12px; letter-spacing:0.38em; color:#C4973F; text-transform:uppercase;">What's Inside</span>
+          <div style="width:32px; height:1px; background:#C4973F55;"></div>
+        </div>
+        <h2 class="font-cormorant" style="font-size:clamp(36px,5vw,56px); font-weight:700; color:#fff; line-height:1.05; margin:0 0 14px;">Purpose-Built Oils.</h2>
+        <p style="font-size:16px; color:#aaa; max-width:440px; margin:0 auto; line-height:1.75;">Every oil has a role. Nothing more. Nothing unnecessary.</p>
+      </div>
+
+      <div class="ing-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:3px;">
+
+        <!-- Pumpkin Seed -->
+        <div class="ing-card reveal" style="position:relative; overflow:hidden;">
+          <img src="images/ingredients/Pumpkin Seed.png" alt="Pumpkin Seed Oil" style="width:100%; height:260px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="position:absolute; top:14px; left:14px; background:#C4973F22; border:1px solid #C4973F55; padding:4px 10px;">
+            <span style="font-size:10px; letter-spacing:0.22em; color:#1a1208; text-transform:uppercase; font-weight:700;">Both Formulas</span>
+          </div>
+          <div style="background:#0a0806; padding:22px 24px; border:1px solid #1e1e1e; border-top:none;">
+            <div style="font-size:11px; letter-spacing:0.24em; color:#C4973F88; text-transform:uppercase; margin-bottom:6px;">Fatty acids · Phytosterols</div>
+            <h3 style="font-size:18px; font-weight:600; color:#fff; margin:0 0 6px;">Pumpkin Seed Oil</h3>
+            <p style="font-size:14px; color:#aaa; margin:0; line-height:1.6;">Supports scalp environment and the appearance of fuller, healthier hair.*</p>
+          </div>
+        </div>
+
+        <!-- Coconut -->
+        <div class="ing-card reveal" style="position:relative; overflow:hidden;">
+          <img src="images/ingredients/Coconut Oil.png" alt="Coconut Oil" style="width:100%; height:260px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="position:absolute; top:14px; left:14px; background:#C4973F22; border:1px solid #C4973F55; padding:4px 10px;">
+            <span style="font-size:10px; letter-spacing:0.22em; color:#1a1208; text-transform:uppercase; font-weight:700;">Both Formulas</span>
+          </div>
+          <div style="background:#0a0806; padding:22px 24px; border:1px solid #1e1e1e; border-top:none;">
+            <div style="font-size:11px; letter-spacing:0.24em; color:#C4973F88; text-transform:uppercase; margin-bottom:6px;">Lauric acid</div>
+            <h3 style="font-size:18px; font-weight:600; color:#fff; margin:0 0 6px;">Coconut Oil</h3>
+            <p style="font-size:14px; color:#aaa; margin:0; line-height:1.6;">Penetrates the hair shaft and helps reduce protein loss from root to tip.*</p>
+          </div>
+        </div>
+
+        <!-- Almond -->
+        <div class="ing-card reveal" style="position:relative; overflow:hidden;">
+          <img src="images/ingredients/Almond Oil.png" alt="Almond Oil" style="width:100%; height:260px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="position:absolute; top:14px; left:14px; background:#C4973F22; border:1px solid #C4973F55; padding:4px 10px;">
+            <span style="font-size:10px; letter-spacing:0.22em; color:#1a1208; text-transform:uppercase; font-weight:700;">Both Formulas</span>
+          </div>
+          <div style="background:#0a0806; padding:22px 24px; border:1px solid #1e1e1e; border-top:none;">
+            <div style="font-size:11px; letter-spacing:0.24em; color:#C4973F88; text-transform:uppercase; margin-bottom:6px;">Oleic · Linoleic acids</div>
+            <h3 style="font-size:18px; font-weight:600; color:#fff; margin:0 0 6px;">Almond Oil</h3>
+            <p style="font-size:14px; color:#aaa; margin:0; line-height:1.6;">Emollient softness, smoothness, and improved manageability.*</p>
+          </div>
+        </div>
+
+        <!-- Flaxseed -->
+        <div class="ing-card reveal" style="position:relative; overflow:hidden;">
+          <img src="images/ingredients/Flax seed.png" alt="Flaxseed Oil" style="width:100%; height:260px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="position:absolute; top:14px; left:14px; background:#C4973F22; border:1px solid #C4973F55; padding:4px 10px;">
+            <span style="font-size:10px; letter-spacing:0.22em; color:#1a1208; text-transform:uppercase; font-weight:700;">Both Formulas</span>
+          </div>
+          <div style="background:#0a0806; padding:22px 24px; border:1px solid #1e1e1e; border-top:none;">
+            <div style="font-size:11px; letter-spacing:0.24em; color:#C4973F88; text-transform:uppercase; margin-bottom:6px;">ALA omega-3</div>
+            <h3 style="font-size:18px; font-weight:600; color:#fff; margin:0 0 6px;">Flaxseed Oil</h3>
+            <p style="font-size:14px; color:#aaa; margin:0; line-height:1.6;">Omega-rich nourishment for dry, curly, or thicker hair profiles.*</p>
+          </div>
+        </div>
+
+        <!-- Castor -->
+        <div class="ing-card reveal" style="position:relative; overflow:hidden;">
+          <img src="images/ingredients/Castor Seed.png" alt="Castor Oil" style="width:100%; height:260px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="position:absolute; top:14px; left:14px; background:#C4973F22; border:1px solid #C4973F55; padding:4px 10px;">
+            <span style="font-size:10px; letter-spacing:0.22em; color:#1a1208; text-transform:uppercase; font-weight:700;">Curl Standard</span>
+          </div>
+          <div style="background:#0a0806; padding:22px 24px; border:1px solid #1e1e1e; border-top:none;">
+            <div style="font-size:11px; letter-spacing:0.24em; color:#C4973F88; text-transform:uppercase; margin-bottom:6px;">Ricinoleic acid</div>
+            <h3 style="font-size:18px; font-weight:600; color:#fff; margin:0 0 6px;">Castor Oil</h3>
+            <p style="font-size:14px; color:#aaa; margin:0; line-height:1.6;">Rich coating that seals moisture and adds weight and definition to curly strands.*</p>
+          </div>
+        </div>
+
+        <!-- Black Seed -->
+        <div class="ing-card reveal" style="position:relative; overflow:hidden;">
+          <img src="images/ingredients/Black Seed.png" alt="Black Seed Oil" style="width:100%; height:260px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="position:absolute; top:14px; left:14px; background:#C4973F22; border:1px solid #C4973F55; padding:4px 10px;">
+            <span style="font-size:10px; letter-spacing:0.22em; color:#1a1208; text-transform:uppercase; font-weight:700;">Straight Standard</span>
+          </div>
+          <div style="background:#0a0806; padding:22px 24px; border:1px solid #1e1e1e; border-top:none;">
+            <div style="font-size:11px; letter-spacing:0.24em; color:#C4973F88; text-transform:uppercase; margin-bottom:6px;">Thymoquinone</div>
+            <h3 style="font-size:18px; font-weight:600; color:#fff; margin:0 0 6px;">Black Seed Oil</h3>
+            <p style="font-size:14px; color:#aaa; margin:0; line-height:1.6;">Lightweight scalp support with natural anti-inflammatory properties.*</p>
+          </div>
+        </div>
+
+      </div>
+      <p class="ing-swipe-hint" style="font-size:10px; letter-spacing:0.22em; color:#555; text-transform:uppercase; margin:0; padding:0 20px 4px;">← Swipe to explore →</p>
+      <p style="font-size:12px; color:#555; margin-top:20px; text-align:center; line-height:1.6;">*Results may vary. Crown Standard is a pre-wash hair and scalp treatment, not a medical hair-loss product. Store in a cool, dark place to preserve oil quality.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       ORIGIN / SOURCING STORY
+  ════════════════════════════════════════════════ -->
+  <section class="sourcing-section" style="background:#F0EDE6; border-top:1px solid #D4CFC8; padding:72px 0;">
+    <div class="max-w-6xl mx-auto px-6 sourcing-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;">
+
+      <!-- Image -->
+      <div class="reveal" style="position:relative;">
+        <img src="images/sourcing/Oil Mill.png" alt="Crown Standard sourcing" style="width:100%; height:100%; object-fit:cover; display:block; min-height:360px;"/>
+        <div style="position:absolute; inset:0; background:linear-gradient(to top right, rgba(240,237,230,0.6) 0%, transparent 60%);"></div>
+        <div style="position:absolute; bottom:24px; left:24px; right:24px; border-left:2px solid #C4973F; padding:14px 18px; background:rgba(240,237,230,0.9);">
+          <p class="font-cormorant" style="font-size:15px; color:#6b5e4a; font-style:italic; line-height:1.5; margin:0;">"Crafted with intention. Built for consistent results."</p>
+        </div>
+      </div>
+
+      <!-- Copy -->
+      <div class="reveal reveal-d1">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:18px;">
+          <div style="width:24px; height:1px; background:#8B6914;"></div>
+          <span style="font-size:12px; letter-spacing:0.38em; color:#7a5a10; text-transform:uppercase;">Where It Comes From</span>
+        </div>
+        <h2 class="font-cormorant" style="font-size:clamp(32px,4vw,48px); font-weight:700; color:#1a1208; line-height:1.1; margin:0 0 20px;">Globally Sourced.<br>Canadian Made.</h2>
+        <p style="font-size:16px; color:#5a4428; line-height:1.85; margin:0 0 20px;">Our oils are cold-pressed from organically grown sources around the world — pumpkin seeds, coconut, almond, flaxseed, castor, and black seed. Each is selected for its functional role, not convenience.</p>
+        <p style="font-size:16px; color:#5a4428; line-height:1.85; margin:0 0 36px;">Blended and bottled in Canada. No shortcuts in sourcing. No compromise in process.</p>
+        <!-- Trust badges -->
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="border:1px solid #D4CFC8; padding:10px 16px; display:flex; align-items:center; gap:8px;">
+            <div style="width:6px; height:6px; background:#C4973F; border-radius:50%;"></div>
+            <span style="font-size:10px; letter-spacing:0.18em; color:#5a4428; text-transform:uppercase;">Cold Pressed</span>
+          </div>
+          <div style="border:1px solid #D4CFC8; padding:10px 16px; display:flex; align-items:center; gap:8px;">
+            <div style="width:6px; height:6px; background:#C4973F; border-radius:50%;"></div>
+            <span style="font-size:10px; letter-spacing:0.18em; color:#5a4428; text-transform:uppercase;">Organic Sources</span>
+          </div>
+          <div style="border:1px solid #D4CFC8; padding:10px 16px; display:flex; align-items:center; gap:8px;">
+            <div style="width:6px; height:6px; background:#C4973F; border-radius:50%;"></div>
+            <span style="font-size:10px; letter-spacing:0.18em; color:#5a4428; text-transform:uppercase;">Made in Canada</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       COMPARISON TABLE
+  ════════════════════════════════════════════════ -->
+  <section class="cmp-section" style="background:#060606; border-top:1px solid #141414; padding:72px 0;">
+    <div class="max-w-4xl mx-auto px-6">
+
+      <div class="reveal" style="text-align:center; margin-bottom:56px;">
+        <div style="display:inline-flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:32px; height:1px; background:#C4973F44;"></div>
+          <span style="font-size:12px; letter-spacing:0.38em; color:#C4973F; text-transform:uppercase;">The Difference</span>
+          <div style="width:32px; height:1px; background:#C4973F44;"></div>
+        </div>
+        <h2 class="font-cormorant" style="font-size:clamp(32px,4.5vw,52px); font-weight:700; color:#fff; line-height:1.1; margin:0 0 14px;">Not All Oils Are Equal.</h2>
+        <p style="font-size:16px; color:#aaa; max-width:440px; margin:0 auto; line-height:1.75;">Most hair oils are diluted with fillers, mineral oil, or synthetic fragrance. Crown Standard is not.</p>
+      </div>
+
+      <!-- Table -->
+      <div class="cmp-table-wrap" style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
+      <div class="cmp-table" style="border:1px solid #222; overflow:hidden; min-width:660px;">
+        <!-- Header row -->
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr;">
+          <div style="padding:16px 24px; border-bottom:1px solid #222; border-right:1px solid #222;"></div>
+          <div style="padding:16px 20px; border-bottom:1px solid #222; border-right:1px solid #222; background:linear-gradient(135deg,#A8802A,#D4AF60); text-align:center;">
+            <span style="font-size:11px; font-weight:800; letter-spacing:0.18em; color:#060606; text-transform:uppercase;">Crown Standard</span>
+          </div>
+          <div style="padding:16px 20px; border-bottom:1px solid #222; border-right:1px solid #222; text-align:center; background:#0a0806;">
+            <span style="font-size:11px; font-weight:600; letter-spacing:0.14em; color:#aaa; text-transform:uppercase;">Generic Oil</span>
+          </div>
+          <div style="padding:16px 20px; border-bottom:1px solid #222; text-align:center; background:#0a0806;">
+            <span style="font-size:11px; font-weight:600; letter-spacing:0.14em; color:#aaa; text-transform:uppercase;">Synthetic Serum</span>
+          </div>
+        </div>
+
+        <!-- Rows -->
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; border-bottom:1px solid #222;">
+          <div style="padding:16px 24px; border-right:1px solid #222;"><span style="font-size:15px; color:#aaa; letter-spacing:0.04em;">Fillers</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; background:#111008; text-align:center;"><span style="color:#C4973F; font-weight:700; font-size:1rem;">✓</span><span style="font-size:11px; color:#C4973F; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">None</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span><span style="font-size:11px; color:#555; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Mineral oil</span></div>
+          <div style="padding:16px 20px; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span><span style="font-size:11px; color:#555; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Silicone</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; border-bottom:1px solid #222;">
+          <div style="padding:16px 24px; border-right:1px solid #222;"><span style="font-size:15px; color:#aaa; letter-spacing:0.04em;">Fragrance</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; background:#111008; text-align:center;"><span style="color:#C4973F; font-weight:700; font-size:1rem;">✓</span><span style="font-size:11px; color:#C4973F; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">None</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span><span style="font-size:11px; color:#555; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Added</span></div>
+          <div style="padding:16px 20px; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span><span style="font-size:11px; color:#555; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Heavy</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; border-bottom:1px solid #222;">
+          <div style="padding:16px 24px; border-right:1px solid #222;"><span style="font-size:15px; color:#aaa; letter-spacing:0.04em;">Single cold-pressed</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; background:#111008; text-align:center;"><span style="color:#C4973F; font-weight:700; font-size:1rem;">✓</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span><span style="font-size:11px; color:#555; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Refined/blended</span></div>
+          <div style="padding:16px 20px; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; border-bottom:1px solid #222;">
+          <div style="padding:16px 24px; border-right:1px solid #222;"><span style="font-size:15px; color:#aaa; letter-spacing:0.04em;">Formula for hair type</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; background:#111008; text-align:center;"><span style="color:#C4973F; font-weight:700; font-size:1rem;">✓</span><span style="font-size:11px; color:#C4973F; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Two formulas</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span><span style="font-size:11px; color:#555; display:block; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">One-size-fits-all</span></div>
+          <div style="padding:16px 20px; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span></div>
+        </div>
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr;">
+          <div style="padding:16px 24px; border-right:1px solid #222;"><span style="font-size:15px; color:#aaa; letter-spacing:0.04em;">Made in Canada</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; background:#111008; text-align:center;"><span style="color:#C4973F; font-weight:700; font-size:1rem;">✓</span></div>
+          <div style="padding:16px 20px; border-right:1px solid #222; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span></div>
+          <div style="padding:16px 20px; text-align:center;"><span style="color:#444; font-weight:700; font-size:1rem;">✗</span></div>
+        </div>
+      </div>
+      </div><!-- /cmp-table-wrap -->
+
+      <!-- Mobile comparison — 2-column Crown Standard vs The Rest -->
+      <div class="cmp-mobile-alt" style="display:none;">
+        <!-- Header -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; margin-bottom:2px;">
+          <div style="background:linear-gradient(135deg,#A8802A,#D4AF60); padding:14px 20px; text-align:center;">
+            <span style="font-size:11px; font-weight:800; letter-spacing:0.16em; color:#060606; text-transform:uppercase;">Crown Standard</span>
+          </div>
+          <div style="background:#0a0806; border:1px solid #222; padding:14px 20px; text-align:center;">
+            <span style="font-size:11px; font-weight:600; letter-spacing:0.12em; color:#666; text-transform:uppercase;">The Rest</span>
+          </div>
+        </div>
+        <!-- Row 1 -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid #1a1a1a;">
+          <div style="background:#111008; padding:16px 20px; border-right:1px solid #1a1a1a;">
+            <span style="color:#C4973F; font-weight:700; font-size:14px;">✓</span>
+            <span style="font-size:13px; color:#C4973F; font-weight:600; display:block; margin-top:4px; letter-spacing:0.04em;">No Fillers</span>
+          </div>
+          <div style="background:#080808; padding:16px 20px;">
+            <span style="color:#444; font-weight:700; font-size:14px;">✗</span>
+            <span style="font-size:12px; color:#555; display:block; margin-top:4px; letter-spacing:0.03em;">Mineral oil added</span>
+          </div>
+        </div>
+        <!-- Row 2 -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid #1a1a1a;">
+          <div style="background:#111008; padding:16px 20px; border-right:1px solid #1a1a1a;">
+            <span style="color:#C4973F; font-weight:700; font-size:14px;">✓</span>
+            <span style="font-size:13px; color:#C4973F; font-weight:600; display:block; margin-top:4px; letter-spacing:0.04em;">No Fragrance</span>
+          </div>
+          <div style="background:#080808; padding:16px 20px;">
+            <span style="color:#444; font-weight:700; font-size:14px;">✗</span>
+            <span style="font-size:12px; color:#555; display:block; margin-top:4px; letter-spacing:0.03em;">Synthetic scent</span>
+          </div>
+        </div>
+        <!-- Row 3 -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid #1a1a1a;">
+          <div style="background:#111008; padding:16px 20px; border-right:1px solid #1a1a1a;">
+            <span style="color:#C4973F; font-weight:700; font-size:14px;">✓</span>
+            <span style="font-size:13px; color:#C4973F; font-weight:600; display:block; margin-top:4px; letter-spacing:0.04em;">Cold-Pressed</span>
+          </div>
+          <div style="background:#080808; padding:16px 20px;">
+            <span style="color:#444; font-weight:700; font-size:14px;">✗</span>
+            <span style="font-size:12px; color:#555; display:block; margin-top:4px; letter-spacing:0.03em;">Refined &amp; blended</span>
+          </div>
+        </div>
+        <!-- Row 4 -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid #1a1a1a;">
+          <div style="background:#111008; padding:16px 20px; border-right:1px solid #1a1a1a;">
+            <span style="color:#C4973F; font-weight:700; font-size:14px;">✓</span>
+            <span style="font-size:13px; color:#C4973F; font-weight:600; display:block; margin-top:4px; letter-spacing:0.04em;">Your Hair Type</span>
+          </div>
+          <div style="background:#080808; padding:16px 20px;">
+            <span style="color:#444; font-weight:700; font-size:14px;">✗</span>
+            <span style="font-size:12px; color:#555; display:block; margin-top:4px; letter-spacing:0.03em;">One-size-fits-all</span>
+          </div>
+        </div>
+        <!-- Row 5 -->
+        <div style="display:grid; grid-template-columns:1fr 1fr;">
+          <div style="background:#111008; padding:16px 20px; border-right:1px solid #1a1a1a;">
+            <span style="color:#C4973F; font-weight:700; font-size:14px;">✓</span>
+            <span style="font-size:13px; color:#C4973F; font-weight:600; display:block; margin-top:4px; letter-spacing:0.04em;">Made in Canada</span>
+          </div>
+          <div style="background:#080808; padding:16px 20px;">
+            <span style="color:#444; font-weight:700; font-size:14px;">✗</span>
+            <span style="font-size:12px; color:#555; display:block; margin-top:4px; letter-spacing:0.03em;">Generic sourcing</span>
+          </div>
+        </div>
+      </div><!-- /cmp-mobile-alt -->
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       THE PRE-WASH RITUAL
+  ════════════════════════════════════════════════ -->
+  <section id="ritual" class="ritual-section" style="background:#F0EDE6; border-top:1px solid #D4CFC8; padding:72px 0;">
+    <div class="max-w-5xl mx-auto px-6">
+      <div style="text-align:center; margin-bottom:64px;">
+        <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:16px;">
+          <div style="width:28px; height:1px; background:#8B6914;"></div>
+          <span style="font-size:12px; letter-spacing:0.38em; color:#8B6914; text-transform:uppercase;">How It Works</span>
+          <div style="width:28px; height:1px; background:#8B6914;"></div>
+        </div>
+        <h2 class="font-cormorant" style="font-size:clamp(36px,5vw,56px); font-weight:700; color:#1a1208; line-height:1.05; margin:0 0 14px;">The Pre-Wash Ritual.</h2>
+        <p style="font-size:13px; color:#5a4428; font-style:italic; max-width:380px; margin:0 auto; line-height:1.7;">Not a styling oil. Not a leave-in. A pre-wash treatment designed to work before the wash.</p>
+      </div>
+
+      <div class="ritual-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:48px;">
+        <div class="reveal reveal-d1" style="border-top:2px solid #C4973F; padding-top:28px;">
+          <div class="font-cormorant" style="font-size:48px; font-weight:700; color:#C4973F; opacity:0.6; line-height:1; margin-bottom:20px; letter-spacing:0.1em;">01</div>
+          <h3 style="font-size:14px; font-weight:800; color:#1a1208; margin:0 0 12px; letter-spacing:0.18em; text-transform:uppercase;">Apply</h3>
+          <p style="font-size:16px; color:#5a4428; line-height:1.8; margin:0;">Dispense 3–5 drops into your palm. Massage into the scalp and distribute through hair, focusing on dry or brittle areas.</p>
+        </div>
+        <div class="reveal reveal-d2" style="border-top:2px solid #C4973F; padding-top:28px;">
+          <div class="font-cormorant" style="font-size:48px; font-weight:700; color:#C4973F; opacity:0.6; line-height:1; margin-bottom:20px; letter-spacing:0.1em;">02</div>
+          <h3 style="font-size:14px; font-weight:800; color:#1a1208; margin:0 0 12px; letter-spacing:0.18em; text-transform:uppercase;">Leave</h3>
+          <p style="font-size:16px; color:#5a4428; line-height:1.8; margin:0;">Let sit 20–30 minutes before washing. For deeper conditioning, apply overnight and wash in the morning.</p>
+        </div>
+        <div class="reveal reveal-d3" style="border-top:2px solid #C4973F; padding-top:28px;">
+          <div class="font-cormorant" style="font-size:48px; font-weight:700; color:#C4973F; opacity:0.6; line-height:1; margin-bottom:20px; letter-spacing:0.1em;">03</div>
+          <h3 style="font-size:14px; font-weight:800; color:#1a1208; margin:0 0 12px; letter-spacing:0.18em; text-transform:uppercase;">Wash</h3>
+          <p style="font-size:16px; color:#5a4428; line-height:1.8; margin:0;">Shampoo out thoroughly. Use consistently — before every wash. The standard is built in the routine.</p>
+        </div>
+      </div>
+
+      <p style="text-align:center; font-size:13px; color:#8B6914; margin-top:52px; letter-spacing:0.12em; text-transform:uppercase;">Use consistently. The standard is built over time.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       FAQ
+  ════════════════════════════════════════════════ -->
+  <section id="faq" class="faq-section" style="background:#060606; border-top:1px solid #141414; padding:72px 0;">
+    <div class="faq-grid max-w-5xl mx-auto px-6" style="display:grid; grid-template-columns:1fr 1.4fr; gap:64px; align-items:start;">
+
+      <!-- Left -->
+      <div class="faq-sticky reveal" style="position:sticky; top:100px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <div style="width:24px; height:1px; background:#C4973F;"></div>
+          <span style="font-size:12px; letter-spacing:0.38em; color:#C4973F; text-transform:uppercase;">Questions</span>
+        </div>
+        <h2 class="font-cormorant" style="font-size:clamp(32px,4vw,48px); font-weight:700; color:#fff; line-height:1.1; margin:0 0 24px;">Everything You Need to Know.</h2>
+        <p style="font-size:16px; color:#aaa; line-height:1.75; margin:0 0 32px;">Clear answers on how Crown Standard works, which formula to choose, and what to expect.</p>
+        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" class="btn-gold" style="font-size:10px; padding:0.85rem 1.75rem;">Shop Your Formula</button>
+      </div>
+
+      <!-- Right: FAQ accordion -->
+      <div style="display:flex; flex-direction:column;">
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">Which formula is right for me?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">Curl Standard is a richer blend for curly, coily, coarse, or dry hair — deeper nourishment and structural support. Straight Standard is lighter, for straight and wavy types — balanced moisture without weighing hair down.</p></div>
+        </div>
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">What is the difference between Curl Standard and Straight Standard?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">Both share Pumpkin Seed, Coconut, Almond, and Flax Seed oils. Curl Standard adds Castor as the fifth oil for richer nourishment. Straight Standard adds Black Seed Oil as the fifth oil for lightweight scalp support.</p></div>
+        </div>
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">Is this a leave-in oil or a styling product?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">Neither. Crown Standard is a pre-wash treatment. Apply before washing, let it sit for 15–30 minutes, then shampoo out. It is not a styling or leave-in oil.</p></div>
+        </div>
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">Can I use Curl Standard on straight hair (or vice versa)?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">Yes — both are safe for all hair types. The formulas are optimized for their intended textures, but both work regardless of hair type. Not sure? Start with Straight Standard for a lighter feel.</p></div>
+        </div>
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">Is this designed for hair growth?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">Crown Standard is not a medical hair-loss treatment. It is a pre-wash scalp and hair oil designed to support scalp health and the appearance of healthier hair with consistent use.</p></div>
+        </div>
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">How often should I use it?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">Before every wash. Apply 20–30 minutes before shampooing. For deeper conditioning, apply overnight and wash in the morning. Consistency is where the standard is built.</p></div>
+        </div>
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">Will it leave hair greasy?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">No. As a pre-wash treatment, it washes out during your regular cleanse. Start with 3–5 drops and adjust to your hair type.</p></div>
+        </div>
+        <div class="faq-item" style="border-top:1px solid #1e1e1e; border-bottom:1px solid #1e1e1e; padding:18px 0;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+            <span style="font-size:16px; font-weight:500; color:#e0d8cc;">How should I store Crown Standard?</span>
+            <span class="faq-plus" style="color:#C4973F; font-size:20px; flex-shrink:0; line-height:1;">+</span>
+          </div>
+          <div class="faq-answer"><p style="font-size:15px; color:#aaa; line-height:1.8; padding-top:12px; margin:0;">Store in a cool, dark place away from direct sunlight. Cold-pressed oils are sensitive to oxidation — proper storage ensures your formula stays at its best.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer style="background:#030303; border-top:1px solid #0e0e0e; padding:64px 0 40px;">
+    <div class="max-w-5xl mx-auto px-6">
+      <div style="height:1px; background:linear-gradient(to right,transparent,#C4973F33,transparent); margin-bottom:48px;"></div>
+      <div class="footer-grid" style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:48px;">
+
+        <!-- Brand -->
+        <div class="reveal">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+            <img src="images/logo/Logo final (1).png" alt="Crown Standard Logo" style="width:52px; height:52px; object-fit:contain; background:#000;"/>
+            <div style="line-height:1.35;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:16px; letter-spacing:0.26em; color:#fff; font-weight:700; text-transform:uppercase;">Crown Standard</div>
+              <div style="font-size:13px; color:#C4973F; font-family:'Cormorant Garamond',serif; font-style:italic; letter-spacing:0.12em;">Pre-Wash Hair Oil</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:#aaa; line-height:1.75; max-width:280px; margin:0 0 20px;">Pure pre-wash oils for your scalp and hair. No fillers. No fragrance. Two formulas — built for your hair type. Made in Canada.</p>
+          <a href="https://instagram.com/crownstandard.co" target="_blank" style="display:inline-flex; align-items:center; gap:6px; font-size:11px; color:#aaa; text-decoration:none; letter-spacing:0.08em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#aaa'">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            @crownstandard.co
+          </a>
+        </div>
+
+        <!-- Navigate -->
+        <div class="reveal reveal-d1">
+          <div style="font-size:11px; letter-spacing:0.32em; color:#C4973F; text-transform:uppercase; margin-bottom:18px;">Navigate</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <a href="#shop" style="font-size:14px; color:#999; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Shop</a>
+            <a href="#ingredients" style="font-size:14px; color:#999; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Ingredients</a>
+            <a href="#ritual" style="font-size:14px; color:#999; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Ritual</a>
+            <a href="#faq" style="font-size:14px; color:#999; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">FAQ</a>
+            <a href="shop.html" style="font-size:14px; color:#999; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Shop</a>
+          </div>
+        </div>
+
+        <!-- Connect -->
+        <div class="reveal reveal-d2">
+          <div style="font-size:11px; letter-spacing:0.32em; color:#C4973F; text-transform:uppercase; margin-bottom:18px;">Connect</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <a href="mailto:crownstandardco@gmail.com" style="font-size:14px; color:#999; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">crownstandardco@gmail.com</a>
+            <a href="https://instagram.com/crownstandard.co" target="_blank" style="font-size:14px; color:#999; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Instagram</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px; background:#0e0e0e; margin-bottom:24px;"></div>
+      <div class="footer-bottom" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div style="font-size:12px; color:#666; letter-spacing:0.06em;">© 2026 Crown Standard. All rights reserved.</div>
+        <div class="footer-links" style="display:flex; gap:20px;">
+          <a href="privacy.html" style="font-size:12px; color:#666; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Privacy Policy</a>
+          <a href="#" style="font-size:12px; color:#666; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Terms of Service</a>
+          <a href="#" style="font-size:12px; color:#666; text-decoration:none; letter-spacing:0.06em; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS
+  ════════════════════════════════════════════════ -->
+  <script>
+    // Announcement bar rotation
+    const annMessages = [
+      'Free Shipping — For a Limited Time',
+      'No Fillers. No Fragrance. No Compromise.',
+      'Made in Canada · Crafted with Intention',
+      'Curl Standard &amp; Straight Standard — Shop Now'
+    ];
+    let annIdx = 0;
+    const annEl = document.getElementById('ann-bar');
+    function rotateAnn() {
+      annEl.style.opacity = '0';
+      setTimeout(() => {
+        annEl.innerHTML = annMessages[annIdx];
+        annEl.style.opacity = '1';
+        annIdx = (annIdx + 1) % annMessages.length;
+      }, 500);
+    }
+    annEl.innerHTML = annMessages[0];
+    annIdx = 1;
+    setInterval(rotateAnn, 3500);
+
+    // Mobile nav
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobile-menu').style.display = 'none';
+    }
+
+    // Scroll reveal
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+
+  </script>
+
+</body>
+</html>
