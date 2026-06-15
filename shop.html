@@ -479,6 +479,7 @@
           Upgrade Your Hair with Clean Ingredients.
         </h2>
         <p style="font-size:15px; color:#aaa; max-width:400px; margin:0 auto; line-height:1.7;">Every oil has a specific role. Nothing more. Nothing unnecessary.</p>
+        <p id="ing-formula-label" style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#C4973F88; margin:14px 0 0;">Straight Standard</p>
       </div>
 
       <!-- 5-card row — no scroll on desktop, swipe carousel on mobile -->
@@ -716,6 +717,9 @@
       // Update ingredient bullet
       document.getElementById('formula-oils-bullet').textContent = FORMULA_OILS[f];
 
+      // Update "What's Inside" formula label
+      document.getElementById('ing-formula-label').textContent = f === 'curl' ? 'Curl Standard' : 'Straight Standard';
+
       // Swap 5th ingredient card with fade
       const fifthCard = document.getElementById('ing-fifth');
       fifthCard.style.opacity = '0';
@@ -781,7 +785,7 @@
 
     // URL param pre-selection
     const params = new URLSearchParams(window.location.search);
-    if (params.get('formula') === 'wavy') selectFormula('wavy');
+    if (params.get('formula') === 'curl') selectFormula('curl');
 
     // ── Touch swipe on image gallery (mobile) ──
     (function() {
