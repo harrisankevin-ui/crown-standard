@@ -306,7 +306,7 @@
           <!-- Main image -->
           <div style="background:#E8E3D8; border:1px solid #D4CFC8; overflow:hidden; margin-bottom:10px; position:relative; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
             <img id="main-img"
-              src="images/product/straight/Hero New.png"
+              src="images/product/curl/Hero.png"
               alt="Crown Standard Hair Oil"
               style="width:100%; height:520px; object-fit:cover; display:block; transition:opacity 0.18s ease;"/>
             <!-- Nav arrows -->
@@ -328,13 +328,13 @@
           <!-- Product name -->
           <h1 id="product-name" class="font-cormorant"
             style="font-size:clamp(30px,3.6vw,42px); font-weight:600; color:#1a1208; margin:0 0 14px; line-height:1.08; letter-spacing:0.01em;">
-            Straight Standard
+            Curl Standard
           </h1>
 
           <!-- Description -->
           <p id="product-desc"
             style="font-size:14px; color:#5a4428; line-height:1.75; margin:0 0 16px; max-width:460px;">
-            A cold-pressed pre-wash oil formulated for straight and wavy hair with medium to thick textures. Balances the scalp and conditions each strand without heaviness or buildup.
+            A cold-pressed pre-wash oil formulated for curl patterns and thicker hair textures. Designed to nourish and support coils, curls, and dense strands from root to tip before every wash.
           </p>
 
           <!-- Bullet points -->
@@ -353,7 +353,7 @@
             </div>
             <div style="display:flex; align-items:flex-start; gap:10px;">
               <span style="color:#C4973F; font-size:13px; flex-shrink:0; margin-top:1px;">✓</span>
-              <span style="font-size:13px; color:#5a4428;"><strong style="color:#1a1208;">5-Ingredient Formula.</strong> <span id="formula-oils-bullet">Pumpkin Seed · Flax Seed · Coconut · Almond · Black Seed</span></span>
+              <span style="font-size:13px; color:#5a4428;"><strong style="color:#1a1208;">5-Ingredient Formula.</strong> <span id="formula-oils-bullet">Pumpkin Seed · Flax Seed · Coconut · Almond · Castor</span></span>
             </div>
           </div>
 
@@ -363,16 +363,16 @@
           <span class="sel-label">Choose your hair oil:</span>
           <div style="display:flex; gap:10px; margin-bottom:22px;">
 
-            <div class="formula-opt active" id="fopt-wavy" onclick="selectFormula('wavy')">
-              <img src="images/product/straight/Hero New.png" alt="Straight Standard"/>
-              <div style="font-size:14px; font-weight:700; color:#1a1208; margin-bottom:3px;">Straight Standard</div>
-              <div style="font-size:11px; color:#6b5e4a; letter-spacing:0.03em;">Straight &amp; Wavy · 60ml</div>
-            </div>
-
-            <div class="formula-opt" id="fopt-curl" onclick="selectFormula('curl')">
+            <div class="formula-opt active" id="fopt-curl" onclick="selectFormula('curl')">
               <img src="images/product/curl/Hero.png" alt="Curl Standard"/>
               <div style="font-size:14px; font-weight:700; color:#1a1208; margin-bottom:3px;">Curl Standard</div>
               <div style="font-size:11px; color:#6b5e4a; letter-spacing:0.03em;">Curl &amp; Coil · 60ml</div>
+            </div>
+
+            <div class="formula-opt" id="fopt-wavy" onclick="selectFormula('wavy')">
+              <img src="images/product/straight/Hero New.png" alt="Straight Standard"/>
+              <div style="font-size:14px; font-weight:700; color:#1a1208; margin-bottom:3px;">Straight Standard</div>
+              <div style="font-size:11px; color:#6b5e4a; letter-spacing:0.03em;">Straight &amp; Wavy · 60ml</div>
             </div>
 
           </div>
@@ -382,8 +382,8 @@
           <div style="display:flex; gap:8px; margin-bottom:24px;">
             <div class="pack-pill" id="ppill-1" onclick="selectPack(1)">
               <div style="font-weight:700; font-size:13px;">1 Bottle</div>
-              <div style="font-size:12px; font-weight:600; color:#1a1208; margin-top:4px;">$39.00</div>
-              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$39 / bottle</div>
+              <div style="font-size:12px; font-weight:600; color:#1a1208; margin-top:4px;">$34.99</div>
+              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$34.99 / bottle</div>
             </div>
             <div class="pack-pill active" id="ppill-2" onclick="selectPack(2)" style="position:relative;">
               <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:linear-gradient(135deg,#A8802A,#D4AF60); color:#060606; padding:2px 8px; white-space:nowrap; border-radius:4px;">Popular</div>
@@ -479,7 +479,7 @@
           Upgrade Your Hair with Clean Ingredients.
         </h2>
         <p style="font-size:15px; color:#aaa; max-width:400px; margin:0 auto; line-height:1.7;">Every oil has a specific role. Nothing more. Nothing unnecessary.</p>
-        <p id="ing-formula-label" style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#C4973F88; margin:14px 0 0;">Straight Standard</p>
+        <p id="ing-formula-label" style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#C4973F88; margin:14px 0 0;">Curl Standard</p>
       </div>
 
       <!-- 5-card row — no scroll on desktop, swipe carousel on mobile -->
@@ -519,10 +519,10 @@
 
         <!-- Dynamic 5th card — swaps on formula change -->
         <div id="ing-fifth" class="ing-card" style="flex:1; min-width:0; position:relative; overflow:hidden; background:#0a0806; border:1px solid #1e1e1e; transition:opacity 0.2s ease;">
-          <img src="images/ingredients/Black Seed.png" alt="Black Seed Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/>
+          <img src="images/ingredients/Castor Seed.png" alt="Castor Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/>
           <div style="padding:18px 16px;">
-            <h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Black Seed Oil</h3>
-            <p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Lightweight scalp support with natural anti-inflammatory properties.*</p>
+            <h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Castor Oil</h3>
+            <p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Rich coating that seals moisture and adds definition to curly strands.*</p>
           </div>
         </div>
 
@@ -626,14 +626,14 @@
     setInterval(rotateAnn, 3500);
 
     // ── State ──
-    let selectedFormula = 'wavy';
+    let selectedFormula = 'curl';
     let selectedPack    = 2;
     let selectedQty     = 1;
     let activeThumb     = 0;
 
-    const PRICES  = { 1: 39,  2: 70,   3: 100 };
+    const PRICES  = { 1: 34.99,  2: 70,   3: 100 };
     const SAVINGS = { 1: 0,   2: 8,    3: 17  };
-    const PER_BTL = { 1: '39.00', 2: '35.00', 3: '33.33' };
+    const PER_BTL = { 1: '34.99', 2: '35.00', 3: '33.33' };
 
     const THUMBS = {
       curl: [
@@ -780,12 +780,12 @@
     }
 
     // ── Init ──
-    renderThumbs('wavy');
+    renderThumbs('curl');
     updatePricing();
 
     // URL param pre-selection
     const params = new URLSearchParams(window.location.search);
-    if (params.get('formula') === 'curl') selectFormula('curl');
+    if (params.get('formula') === 'wavy') selectFormula('wavy');
 
     // ── Touch swipe on image gallery (mobile) ──
     (function() {
