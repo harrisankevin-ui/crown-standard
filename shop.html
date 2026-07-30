@@ -380,21 +380,21 @@
           <!-- ── PACK SIZE ── -->
           <span class="sel-label">Choose pack size:</span>
           <div style="display:flex; gap:8px; margin-bottom:24px;">
-            <div class="pack-pill" id="ppill-1" onclick="selectPack(1)">
+            <div class="pack-pill active" id="ppill-1" onclick="selectPack(1)">
               <div style="font-weight:700; font-size:13px;">1 Bottle</div>
               <div style="font-size:12px; font-weight:600; color:#1a1208; margin-top:4px;">$34.99</div>
               <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$34.99 / bottle</div>
             </div>
-            <div class="pack-pill active" id="ppill-2" onclick="selectPack(2)" style="position:relative;">
+            <div class="pack-pill" id="ppill-2" onclick="selectPack(2)" style="position:relative;">
               <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:linear-gradient(135deg,#A8802A,#D4AF60); color:#060606; padding:2px 8px; white-space:nowrap; border-radius:4px;">Popular</div>
               <div style="font-weight:700; font-size:13px;">2 Bottles</div>
-              <div style="font-size:12px; font-weight:600; color:#C4973F; margin-top:4px;">$70.00</div>
-              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$35 / bottle</div>
+              <div style="font-size:12px; font-weight:600; color:#C4973F; margin-top:4px;">$64.99</div>
+              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$32.50 / bottle</div>
             </div>
             <div class="pack-pill" id="ppill-3" onclick="selectPack(3)">
               <div style="font-weight:700; font-size:13px;">3 Bottles</div>
-              <div style="font-size:12px; font-weight:600; color:#1a1208; margin-top:4px;">$100.00</div>
-              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$33 / bottle</div>
+              <div style="font-size:12px; font-weight:600; color:#1a1208; margin-top:4px;">$89.99</div>
+              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$30.00 / bottle</div>
             </div>
           </div>
 
@@ -407,9 +407,9 @@
             <div class="d-radio"></div>
             <div style="flex:1;">
               <div style="font-size:13px; font-weight:600; color:#1a1208; margin-bottom:3px;">One-time purchase</div>
-              <div id="onetime-price-detail" style="font-size:12px; color:#6b5e4a;">$70.00 CAD &nbsp;·&nbsp; $35.00 / bottle &nbsp;·&nbsp; Save $8.00</div>
+              <div id="onetime-price-detail" style="font-size:12px; color:#6b5e4a;">$34.99 CAD &nbsp;·&nbsp; $34.99 / bottle</div>
             </div>
-            <div id="onetime-price" style="font-size:18px; font-weight:700; color:#1a1208; font-family:'Cormorant Garamond',serif;">$70.00</div>
+            <div id="onetime-price" style="font-size:18px; font-weight:700; color:#1a1208;">$34.99</div>
           </div>
 
           <div class="delivery-row disabled" id="del-subscribe">
@@ -631,9 +631,9 @@
     let selectedQty     = 1;
     let activeThumb     = 0;
 
-    const PRICES  = { 1: 34.99,  2: 70,   3: 100 };
-    const SAVINGS = { 1: 0,   2: 8,    3: 17  };
-    const PER_BTL = { 1: '34.99', 2: '35.00', 3: '33.33' };
+    const PRICES  = { 1: 34.99,  2: 64.99, 3: 89.99 };
+    const SAVINGS = { 1: 0,      2: 5,     3: 15    };
+    const PER_BTL = { 1: '34.99', 2: '32.50', 3: '30.00' };
 
     const THUMBS = {
       curl: [
@@ -766,11 +766,11 @@
     // ── Checkout ──
     const STRIPE_LINKS = {
       'curl-1': 'https://buy.stripe.com/fZu9AUg2c3UJaqudTL5c401',
-      'curl-2': 'https://buy.stripe.com/5kQ8wQdU40Ix6ae4jb5c402',
-      'curl-3': 'https://buy.stripe.com/00w9AUaHS0Ix7eidTL5c403',
+      'curl-2': 'https://buy.stripe.com/cNi5kE5ny4YN56a16Z5c407',
+      'curl-3': 'https://buy.stripe.com/4gM00k5ny2QFeGKg1T5c408',
       'wavy-1': 'https://buy.stripe.com/00w00k03e9f30PU3f75c404',
-      'wavy-2': 'https://buy.stripe.com/3cI4gA7vG76VdCG2b35c405',
-      'wavy-3': 'https://buy.stripe.com/dRmbJ203ecrf1TY8zr5c406',
+      'wavy-2': 'https://buy.stripe.com/3cI5kE9DO76V1TY3f75c409',
+      'wavy-3': 'https://buy.stripe.com/00w28s7vGbnbdCGaHz5c40a',
     };
 
     function goToCheckout() {
