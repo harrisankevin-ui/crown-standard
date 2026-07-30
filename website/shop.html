@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior:smooth;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Crown Standard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { 'cs-gold': '#C4973F', 'cs-black': '#060606', 'cs-cream': '#F0EDE6' },
+          fontFamily: { 'inter': ['Inter','sans-serif'], 'cormorant': ['"Cormorant Garamond"','serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scrollbar-gutter: stable; }
+    body { font-family: 'Inter', sans-serif; background: #F0EDE6; color: #1a1208; margin: 0; padding: 0; overflow-x: hidden; }
+    .font-cormorant { font-family: 'Cormorant Garamond', serif; }
+
+    /* Gold CTA button */
+    .btn-gold {
+      display: inline-block; background: linear-gradient(135deg, #A8802A, #D4AF60);
+      color: #060606; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      font-size: 0.82rem; padding: 1.25rem 2rem; border: none; cursor: pointer;
+      transition: all 0.25s ease; text-decoration: none; text-align: center; border-radius: 6px;
+    }
+    .btn-gold:hover { background: linear-gradient(135deg, #D4AF60, #E8C96A); box-shadow: 0 10px 36px rgba(196,151,63,0.45); transform: translateY(-1px); }
+    .btn-gold:active { transform: translateY(0); }
+
+    /* Announcement bar */
+    .ann-text { transition: opacity 0.5s ease; }
+
+    /* Thumbnail gallery */
+    .thumb {
+      width: 80px; height: 80px; object-fit: cover; cursor: pointer;
+      border: 1.5px solid transparent; transition: border-color 0.2s; background: #D4CFC8;
+      border-radius: 10px;
+    }
+    .thumb.active { border-color: #C4973F; }
+    .thumb:hover { border-color: #C4973F66; }
+
+    /* Section label style */
+    .sel-label {
+      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #8B6914; font-weight: 500; margin-bottom: 10px; display: block;
+    }
+
+    /* Formula option cards (HNY+ style — image top, text below, rounded) */
+    .formula-opt {
+      display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1;
+      padding: 16px 12px 14px; border: 2px solid #D4CFC8; background: #E8E3D8;
+      cursor: pointer; transition: all 0.2s ease; border-radius: 16px; min-width: 0;
+    }
+    .formula-opt:hover { border-color: #C4973F66; background: #DDD9CE; }
+    .formula-opt.active { border-color: #C4973F; background: #fff; box-shadow: 0 4px 16px rgba(196,151,63,0.15); }
+    .formula-opt img { width: 100%; height: 110px; object-fit: contain; margin-bottom: 10px; }
+
+    /* Pack size pills */
+    .pack-pill {
+      flex: 1; padding: 14px 10px; border: 2px solid #D4CFC8; background: #E8E3D8;
+      color: #6b5e4a; font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
+      cursor: pointer; transition: all 0.2s; text-align: center; border-radius: 12px;
+    }
+    .pack-pill:hover { border-color: #C4973F66; color: #3a2a10; background: #DDD9CE; }
+    .pack-pill.active { border-color: #C4973F; background: #fff; color: #1a1208; box-shadow: 0 4px 16px rgba(196,151,63,0.15); }
+
+    /* Delivery type rows */
+    .delivery-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 18px; border: 1px solid #D4CFC8; background: #E8E3D8;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative;
+    }
+    .delivery-row + .delivery-row { margin-top: 6px; }
+    .delivery-row.active { border-color: #C4973F; background: #fff; }
+    .delivery-row.disabled { opacity: 0.38; cursor: default; pointer-events: none; }
+    .d-radio {
+      width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #C8C0B0;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .delivery-row.active .d-radio { border-color: #C4973F; }
+    .delivery-row.active .d-radio::after {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: #C4973F; display: block;
+    }
+
+    /* Scrolling ticker */
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .ticker-track { display: flex; width: max-content; animation: ticker 32s linear infinite; }
+    .ticker-track:hover { animation-play-state: paused; }
+
+    /* Quantity select */
+    .qty-select {
+      background: #E8E3D8; border: 1px solid #D4CFC8; color: #1a1208;
+      padding: 10px 36px 10px 14px; font-size: 13px; font-family: 'Inter', sans-serif;
+      appearance: none; -webkit-appearance: none; cursor: pointer; outline: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B6914' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+    }
+
+    /* Ingredient card */
+    .ing-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .ing-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.28); }
+
+    /* Thin gold divider */
+    .gold-divider { height: 1px; background: linear-gradient(to right, transparent, #C4973F33, transparent); }
+    .dark-divider { height: 1px; background: #D4CFC8; }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.72s cubic-bezier(0.22,1,0.36,1), transform 0.72s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+
+    /* ===== SWIPE HINT ===== */
+    .shop-swipe-hint { display: none; }
+
+    /* ===== STICKY CTA (mobile only — flex on mobile, hidden on desktop) ===== */
+    .sticky-cta {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #F0EDE6; border-top: 1px solid #D4CFC8;
+      padding: 12px 20px;
+      align-items: center; gap: 14px;
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(26,18,8,0.10);
+    }
+
+    /* ===== TAP HIGHLIGHT — remove iOS blue flash on interactive elements ===== */
+    .formula-opt, .pack-pill, .delivery-row, .mob-dot, .btn-gold, .thumb {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ===== GALLERY DOTS (mobile only — rendered via JS) ===== */
+    .mob-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.40);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .mob-dot.active { background: rgba(255,255,255,0.95); transform: scale(1.3); }
+
+    /* ===== MOBILE RESPONSIVE ===== */
+    @media (max-width: 768px) {
+
+      /* ----- Global: seal horizontal overflow ----- */
+      html, body { overflow-x: hidden !important; }
+
+      /* ----- Nav ----- */
+      .nav-links { display: none !important; }
+      #shop-nav-hamburger { display: flex !important; }
+      .nav-logo { width: 50px !important; height: 50px !important; }
+      .nav-brand-name { font-size: 15px !important; letter-spacing: 0.16em !important; }
+      .nav-brand-sub { font-size: 11px !important; }
+      /* Hide Shop Now from nav on mobile — hamburger drawer already has it */
+      .btn-gold-nav { display: none !important; }
+      /* Compact nav container */
+      .nav-inner {
+        padding-left: 16px !important; padding-right: 16px !important;
+        padding-top: 12px !important; padding-bottom: 12px !important;
+        gap: 0 !important;
+      }
+      /* Allow logo text area to shrink so hamburger never gets pushed off */
+      .nav-logo-link { gap: 8px !important; min-width: 0 !important; }
+      .nav-logo-link > div { min-width: 0 !important; overflow: hidden !important; }
+
+      /* ----- Product layout: full-bleed image + floating card ----- */
+      .shop-section { padding: 0 !important; }
+      .shop-container { padding-left: 0 !important; padding-right: 0 !important; max-width: 100% !important; }
+      .product-layout { flex-direction: column !important; }
+      .product-gallery {
+        flex: none !important; width: 100% !important;
+        padding-right: 0 !important;
+        position: relative !important;   /* anchors dot row inside */
+        top: auto !important; margin-bottom: 0 !important;
+        /* overflow: hidden intentionally removed — it created a stacking context
+           that trapped dots below the floating card's z-index */
+      }
+      .product-gallery > div:first-child {
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin-bottom: 0 !important;
+      }
+      /* Hide prev/next arrows — replaced by swipe gesture */
+      .product-gallery > div:first-child > button { display: none !important; }
+      .product-gallery img#main-img { height: 360px !important; object-fit: cover !important; }
+
+      /* Dots row: float over image, raised above card overlap zone */
+      #thumb-row {
+        position: absolute !important;
+        bottom: 44px !important;   /* image=360px, card overlap=24px → card starts at 336px; dots at 316px = 20px clear */
+        left: 0 !important; right: 0 !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        gap: 8px !important;
+        z-index: 5 !important;
+      }
+
+      /* Floating details card */
+      .product-details {
+        flex: none !important; width: 100% !important;
+        background: #F0EDE6 !important;
+        border-radius: 22px 22px 0 0 !important;
+        margin-top: -24px !important;
+        padding: 28px 20px 32px !important;
+        position: relative !important;
+        z-index: 2 !important;
+      }
+
+      /* Sticky CTA — show on mobile, hide original */
+      .sticky-cta { display: flex !important; }
+      .main-cta-wrap { display: none !important; }
+      body { padding-bottom: 80px; }
+
+      /* ----- Pack pills: taller tap targets ----- */
+      .pack-pill { padding: 18px 10px !important; }
+
+      /* ----- Ingredient carousel ----- */
+      .shop-ing-grid {
+        overflow-x: scroll !important;
+        scroll-snap-type: x proximity !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        gap: 8px !important;
+        padding-bottom: 16px !important;
+      }
+      .shop-ing-grid::-webkit-scrollbar { display: none !important; }
+      .shop-ing-grid .ing-card {
+        flex: 0 0 70% !important;
+        scroll-snap-align: start !important;
+        min-width: 0 !important;
+      }
+      .shop-swipe-hint { display: block !important; margin-top: 8px !important; }
+
+      /* ----- CTA section ----- */
+      .shop-cta-section { padding: 64px 20px !important; }
+
+      /* ----- Footer ----- */
+      .shop-footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+      .shop-footer-bottom { flex-direction: column !important; align-items: flex-start !important; }
+      .shop-footer-links { flex-wrap: wrap !important; gap: 12px !important; }
+
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── ANNOUNCEMENT BAR ── -->
+  <div style="background:#0a0906; border-bottom:1px solid #141414; min-height:36px; display:flex; align-items:center; justify-content:center;">
+    <p id="ann-bar" class="ann-text" style="font-size:10px; letter-spacing:0.32em; color:#C4973F; text-transform:uppercase; text-align:center; padding:0 16px; margin:0;"></p>
+  </div>
+
+  <!-- ── NAV ── -->
+  <nav style="background:#000; border-bottom:1px solid #141414; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); position:sticky; top:0; z-index:50;">
+    <div class="nav-inner max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
+      <a href="index.html" class="nav-logo-link" style="display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0;">
+        <img src="images/logo/Logo final (1).png" alt="Crown Standard Logo" class="nav-logo" style="width:80px; height:80px; object-fit:contain; background:#000;"/>
+        <div style="line-height:1.35;">
+          <div class="nav-brand-name" style="font-family:'Cormorant Garamond',serif; font-size:19px; letter-spacing:0.26em; color:#fff; font-weight:700; text-transform:uppercase;">Crown Standard</div>
+          <div class="nav-brand-sub" style="font-size:13px; letter-spacing:0.12em; color:#C4973F; font-family:'Cormorant Garamond',serif; font-style:italic;">Pre-Wash Hair Oil</div>
+        </div>
+      </a>
+      <div class="nav-links" style="display:flex; gap:36px; align-items:center;">
+        <a href="shop.html" style="font-size:13px; letter-spacing:0.08em; color:#C4973F; text-transform:uppercase; text-decoration:none; font-weight:600;">Shop</a>
+        <a href="index.html#ingredients" style="font-size:13px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Ingredients</a>
+        <a href="index.html#faq" style="font-size:13px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">FAQ</a>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
+        <a href="shop.html" class="btn-gold btn-gold-nav" style="font-size:9px; padding:0.6rem 1.4rem;">Shop Now</a>
+        <button id="shop-nav-hamburger" onclick="toggleShopMenu()" aria-label="Menu" style="display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px;">
+          <span style="display:block; width:22px; height:2px; background:#C4973F;"></span>
+          <span style="display:block; width:22px; height:2px; background:#C4973F;"></span>
+          <span style="display:block; width:22px; height:2px; background:#C4973F;"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile nav drawer -->
+    <div id="shop-mobile-menu" style="display:none; background:#000; border-top:1px solid #141414; padding:20px 24px; flex-direction:column; gap:18px;">
+      <a href="index.html" style="font-size:14px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500;">Home</a>
+      <a href="shop.html" style="font-size:14px; letter-spacing:0.08em; color:#C4973F; text-transform:uppercase; text-decoration:none; font-weight:500;">Shop</a>
+      <a href="index.html#ingredients" style="font-size:14px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500;">Ingredients</a>
+      <a href="index.html#faq" style="font-size:14px; letter-spacing:0.08em; color:#999; text-transform:uppercase; text-decoration:none; font-weight:500;">FAQ</a>
+    </div>
+  </nav>
+
+  <!-- ── PRODUCT SECTION ── -->
+  <section class="shop-section" style="background:#F0EDE6; padding:52px 0 80px;">
+    <div class="shop-container max-w-6xl mx-auto px-6">
+      <div class="product-layout" style="display:flex; gap:0; align-items:flex-start;">
+
+        <!-- LEFT: Image Gallery -->
+        <div class="product-gallery reveal" style="flex:0 0 48%; padding-right:52px; position:sticky; top:90px;">
+
+          <!-- Main image -->
+          <div style="background:#E8E3D8; border:1px solid #D4CFC8; overflow:hidden; margin-bottom:10px; position:relative; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.10);">
+            <img id="main-img"
+              src="images/product/curl/Hero.png"
+              alt="Crown Standard Hair Oil"
+              style="width:100%; height:520px; object-fit:cover; display:block; transition:opacity 0.18s ease;"/>
+            <!-- Nav arrows -->
+            <button onclick="shiftThumb(-1)" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); width:36px; height:36px; background:rgba(240,237,230,0.9); border:1px solid #C8C0B0; color:#6b5e4a; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#6b5e4a'">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button onclick="shiftThumb(1)" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); width:36px; height:36px; background:rgba(240,237,230,0.9); border:1px solid #C8C0B0; color:#6b5e4a; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#6b5e4a'">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <!-- Thumbnails -->
+          <div id="thumb-row" style="display:flex; gap:8px;"></div>
+        </div>
+
+        <!-- RIGHT: Product Details -->
+        <div class="product-details reveal reveal-d1" style="flex:1; padding-top:4px;">
+
+          <!-- Product name -->
+          <h1 id="product-name" class="font-cormorant"
+            style="font-size:clamp(30px,3.6vw,42px); font-weight:600; color:#1a1208; margin:0 0 14px; line-height:1.08; letter-spacing:0.01em;">
+            Curl Standard
+          </h1>
+
+          <!-- Description -->
+          <p id="product-desc"
+            style="font-size:14px; color:#5a4428; line-height:1.75; margin:0 0 16px; max-width:460px;">
+            A cold-pressed pre-wash oil formulated for curl patterns and thicker hair textures. Designed to nourish and support coils, curls, and dense strands from root to tip before every wash.
+          </p>
+
+          <!-- Bullet points -->
+          <div id="product-bullets" style="display:flex; flex-direction:column; gap:8px; margin-bottom:24px;">
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="color:#C4973F; font-size:13px; flex-shrink:0; margin-top:1px;">✓</span>
+              <span style="font-size:13px; color:#5a4428;"><strong style="color:#1a1208;">No Fillers.</strong> Cold-pressed oils — nothing else added.</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="color:#C4973F; font-size:13px; flex-shrink:0; margin-top:1px;">✓</span>
+              <span style="font-size:13px; color:#5a4428;"><strong style="color:#1a1208;">No Fragrance.</strong> Clean formula, clean results.</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="color:#C4973F; font-size:13px; flex-shrink:0; margin-top:1px;">✓</span>
+              <span style="font-size:13px; color:#5a4428;"><strong style="color:#1a1208;">Pre-Wash Application.</strong> Apply to dry hair before shampooing.</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="color:#C4973F; font-size:13px; flex-shrink:0; margin-top:1px;">✓</span>
+              <span style="font-size:13px; color:#5a4428;"><strong style="color:#1a1208;">5-Ingredient Formula.</strong> <span id="formula-oils-bullet">Pumpkin Seed · Flax Seed · Coconut · Almond · Castor</span></span>
+            </div>
+          </div>
+
+          <div class="dark-divider" style="margin-bottom:24px;"></div>
+
+          <!-- ── FORMULA SELECTOR ── -->
+          <span class="sel-label">Choose your hair oil:</span>
+          <div style="display:flex; gap:10px; margin-bottom:22px;">
+
+            <div class="formula-opt active" id="fopt-curl" onclick="selectFormula('curl')">
+              <img src="images/product/curl/Hero.png" alt="Curl Standard"/>
+              <div style="font-size:14px; font-weight:700; color:#1a1208; margin-bottom:3px;">Curl Standard</div>
+              <div style="font-size:11px; color:#6b5e4a; letter-spacing:0.03em;">Curl &amp; Coil · 60ml</div>
+            </div>
+
+            <div class="formula-opt" id="fopt-wavy" onclick="selectFormula('wavy')">
+              <img src="images/product/straight/Hero New.png" alt="Straight Standard"/>
+              <div style="font-size:14px; font-weight:700; color:#1a1208; margin-bottom:3px;">Straight Standard</div>
+              <div style="font-size:11px; color:#6b5e4a; letter-spacing:0.03em;">Straight &amp; Wavy · 60ml</div>
+            </div>
+
+          </div>
+
+          <!-- ── PACK SIZE ── -->
+          <span class="sel-label">Choose pack size:</span>
+          <div style="display:flex; gap:8px; margin-bottom:24px;">
+            <div class="pack-pill" id="ppill-1" onclick="selectPack(1)">
+              <div style="font-weight:700; font-size:13px;">1 Bottle</div>
+              <div style="font-size:12px; font-weight:600; color:#1a1208; margin-top:4px;">$34.99</div>
+              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$34.99 / bottle</div>
+            </div>
+            <div class="pack-pill active" id="ppill-2" onclick="selectPack(2)" style="position:relative;">
+              <div style="position:absolute; top:-11px; left:50%; transform:translateX(-50%); font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:linear-gradient(135deg,#A8802A,#D4AF60); color:#060606; padding:2px 8px; white-space:nowrap; border-radius:4px;">Popular</div>
+              <div style="font-weight:700; font-size:13px;">2 Bottles</div>
+              <div style="font-size:12px; font-weight:600; color:#C4973F; margin-top:4px;">$70.00</div>
+              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$35 / bottle</div>
+            </div>
+            <div class="pack-pill" id="ppill-3" onclick="selectPack(3)">
+              <div style="font-weight:700; font-size:13px;">3 Bottles</div>
+              <div style="font-size:12px; font-weight:600; color:#1a1208; margin-top:4px;">$100.00</div>
+              <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$33 / bottle</div>
+            </div>
+          </div>
+
+          <div class="dark-divider" style="margin-bottom:24px;"></div>
+
+          <!-- ── DELIVERY TYPE ── -->
+          <span class="sel-label">Choose delivery type:</span>
+
+          <div class="delivery-row active" id="del-onetime" onclick="selectDelivery('onetime')">
+            <div class="d-radio"></div>
+            <div style="flex:1;">
+              <div style="font-size:13px; font-weight:600; color:#1a1208; margin-bottom:3px;">One-time purchase</div>
+              <div id="onetime-price-detail" style="font-size:12px; color:#6b5e4a;">$70.00 CAD &nbsp;·&nbsp; $35.00 / bottle &nbsp;·&nbsp; Save $8.00</div>
+            </div>
+            <div id="onetime-price" style="font-size:18px; font-weight:700; color:#1a1208; font-family:'Cormorant Garamond',serif;">$70.00</div>
+          </div>
+
+          <div class="delivery-row disabled" id="del-subscribe">
+            <div class="d-radio"></div>
+            <div style="flex:1;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:3px;">
+                <span style="font-size:13px; font-weight:600; color:#5a4428;">Subscribe &amp; Save</span>
+                <span style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border:1px solid #C4973F44; color:#C4973F88; padding:2px 8px;">Coming Soon</span>
+              </div>
+              <div style="font-size:12px; color:#8b7a68;">Save up to 15% with a subscription</div>
+            </div>
+          </div>
+
+          <!-- ── QUANTITY ── -->
+          <div style="margin-top:20px; margin-bottom:24px; display:flex; align-items:center; gap:14px;">
+            <span style="font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#8B6914;">Quantity</span>
+            <select class="qty-select" id="qty-selector" onchange="updateQty(this.value)">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+
+          <!-- ── ADD TO CART (desktop) / hidden on mobile by .main-cta-wrap ── -->
+          <div class="main-cta-wrap">
+            <button onclick="goToCheckout()" class="btn-gold" style="width:100%; padding:18px; font-size:11px; letter-spacing:0.2em; display:block;">
+              Add to Cart &rarr;
+            </button>
+            <!-- Trust line -->
+            <div style="display:flex; justify-content:center; gap:24px; margin-top:16px; flex-wrap:wrap;">
+              <span style="font-size:11px; color:#8b7a68; letter-spacing:0.06em;">Free shipping $125+ CAD</span>
+              <span style="font-size:11px; color:#C8C0B0;">·</span>
+              <span style="font-size:11px; color:#8b7a68; letter-spacing:0.06em;">60-day guarantee</span>
+              <span style="font-size:11px; color:#C8C0B0;">·</span>
+              <span style="font-size:11px; color:#8b7a68; letter-spacing:0.06em;">Made in Canada</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCROLLING TICKER ── -->
+  <div style="background:#0a0906; border-top:1px solid #141414; border-bottom:1px solid #141414; padding:13px 0; overflow:hidden;">
+    <div class="ticker-track">
+      <span style="white-space:nowrap; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:#888;">
+        No Fillers &nbsp;◇&nbsp; No Fragrance &nbsp;◇&nbsp; No Mineral Oil &nbsp;◇&nbsp; No Parabens &nbsp;◇&nbsp; No Sulfates &nbsp;◇&nbsp; No Silicones &nbsp;◇&nbsp; Cold-Pressed &nbsp;◇&nbsp; Made in Canada &nbsp;◇&nbsp; No Fillers &nbsp;◇&nbsp; No Fragrance &nbsp;◇&nbsp; No Mineral Oil &nbsp;◇&nbsp; No Parabens &nbsp;◇&nbsp; No Sulfates &nbsp;◇&nbsp; No Silicones &nbsp;◇&nbsp; Cold-Pressed &nbsp;◇&nbsp; Made in Canada &nbsp;◇&nbsp;
+      </span>
+      <span style="white-space:nowrap; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:#888;" aria-hidden="true">
+        No Fillers &nbsp;◇&nbsp; No Fragrance &nbsp;◇&nbsp; No Mineral Oil &nbsp;◇&nbsp; No Parabens &nbsp;◇&nbsp; No Sulfates &nbsp;◇&nbsp; No Silicones &nbsp;◇&nbsp; Cold-Pressed &nbsp;◇&nbsp; Made in Canada &nbsp;◇&nbsp; No Fillers &nbsp;◇&nbsp; No Fragrance &nbsp;◇&nbsp; No Mineral Oil &nbsp;◇&nbsp; No Parabens &nbsp;◇&nbsp; No Sulfates &nbsp;◇&nbsp; No Silicones &nbsp;◇&nbsp; Cold-Pressed &nbsp;◇&nbsp; Made in Canada &nbsp;◇&nbsp;
+      </span>
+    </div>
+  </div>
+
+  <!-- ── INGREDIENTS SECTION ── -->
+  <section id="ingredients" style="background:#060606; border-top:1px solid #141414; padding:80px 0;">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div style="text-align:center; margin-bottom:52px;">
+        <div style="display:inline-flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <div style="width:28px; height:1px; background:#C4973F55;"></div>
+          <span style="font-size:11px; letter-spacing:0.38em; color:#C4973F; text-transform:uppercase;">What's Inside</span>
+          <div style="width:28px; height:1px; background:#C4973F55;"></div>
+        </div>
+        <h2 class="font-cormorant" style="font-size:clamp(30px,4vw,48px); font-weight:700; color:#fff; margin:0 0 12px; line-height:1.05;">
+          Upgrade Your Hair with Clean Ingredients.
+        </h2>
+        <p style="font-size:15px; color:#aaa; max-width:400px; margin:0 auto; line-height:1.7;">Every oil has a specific role. Nothing more. Nothing unnecessary.</p>
+        <p id="ing-formula-label" style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#C4973F88; margin:14px 0 0;">Curl Standard</p>
+      </div>
+
+      <!-- 5-card row — no scroll on desktop, swipe carousel on mobile -->
+      <div class="shop-ing-grid" style="display:flex; gap:3px;">
+
+        <div class="ing-card" style="flex:1; min-width:0; position:relative; overflow:hidden; background:#0a0806; border:1px solid #1e1e1e;">
+          <img src="images/ingredients/Pumpkin Seed.png" alt="Pumpkin Seed Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="padding:18px 16px;">
+            <h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Pumpkin Seed Oil</h3>
+            <p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Supports scalp environment and the appearance of fuller, healthier hair.*</p>
+          </div>
+        </div>
+
+        <div class="ing-card" style="flex:1; min-width:0; position:relative; overflow:hidden; background:#0a0806; border:1px solid #1e1e1e;">
+          <img src="images/ingredients/Flax seed.png" alt="Flaxseed Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="padding:18px 16px;">
+            <h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Flaxseed Oil</h3>
+            <p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Omega-rich nourishment that supports scalp health and strand conditioning.*</p>
+          </div>
+        </div>
+
+        <div class="ing-card" style="flex:1; min-width:0; position:relative; overflow:hidden; background:#0a0806; border:1px solid #1e1e1e;">
+          <img src="images/ingredients/Coconut Oil.png" alt="Coconut Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="padding:18px 16px;">
+            <h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Coconut Oil</h3>
+            <p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Penetrates the hair shaft and helps reduce protein loss from root to tip.*</p>
+          </div>
+        </div>
+
+        <div class="ing-card" style="flex:1; min-width:0; position:relative; overflow:hidden; background:#0a0806; border:1px solid #1e1e1e;">
+          <img src="images/ingredients/Almond Oil.png" alt="Almond Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="padding:18px 16px;">
+            <h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Almond Oil</h3>
+            <p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Emollient softness, smoothness, and improved manageability.*</p>
+          </div>
+        </div>
+
+        <!-- Dynamic 5th card — swaps on formula change -->
+        <div id="ing-fifth" class="ing-card" style="flex:1; min-width:0; position:relative; overflow:hidden; background:#0a0806; border:1px solid #1e1e1e; transition:opacity 0.2s ease;">
+          <img src="images/ingredients/Castor Seed.png" alt="Castor Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/>
+          <div style="padding:18px 16px;">
+            <h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Castor Oil</h3>
+            <p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Rich coating that seals moisture and adds definition to curly strands.*</p>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="shop-swipe-hint" style="font-size:10px; letter-spacing:0.22em; color:#555; text-transform:uppercase; margin:0; padding:0 0 4px; text-align:center;">← Swipe to explore →</p>
+      <p style="font-size:11px; color:#555; margin-top:18px; text-align:center; line-height:1.6;">*Results may vary. Crown Standard is a pre-wash hair and scalp treatment, not a medical hair-loss product.</p>
+    </div>
+  </section>
+
+  <!-- ── FINAL CTA ── -->
+  <section class="shop-cta-section reveal" style="background:#F0EDE6; border-top:1px solid #D4CFC8; padding:112px 24px; text-align:center;">
+    <div class="max-w-3xl mx-auto">
+      <div style="display:inline-flex; align-items:center; gap:14px; margin-bottom:24px;">
+        <div style="width:44px; height:1px; background:#8B691444;"></div>
+        <span style="font-size:12px; letter-spacing:0.38em; color:#7a5a10; text-transform:uppercase;">Crown Standard</span>
+        <div style="width:44px; height:1px; background:#8B691444;"></div>
+      </div>
+      <h2 class="font-cormorant" style="font-size:clamp(48px,8vw,88px); font-weight:700; color:#1a1208; line-height:1.0; margin:0 0 20px; letter-spacing:-0.01em;">Set the Standard.</h2>
+      <p class="font-cormorant" style="font-size:clamp(16px,2vw,22px); color:#6b5e4a; font-style:italic; margin:0 0 14px;">Built on a higher standard.</p>
+      <p style="font-size:16px; color:#5a4428; max-width:340px; margin:0 auto 44px; line-height:1.75;">Choose the formula built for your hair type. The standard is built in the routine.</p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a href="shop.html?formula=curl" class="btn-gold" style="font-size:10px; padding:1rem 2.2rem; text-decoration:none;">Shop Curl Standard</a>
+        <a href="shop.html?formula=wavy" style="font-size:10px; padding:1rem 2.2rem; text-decoration:none; border:1px solid #8B6914; color:#7a5a10; letter-spacing:0.22em; text-transform:uppercase; display:inline-flex; align-items:center; justify-content:center; background:none; border-radius:6px;">Shop Straight Standard</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer style="background:#030303; border-top:1px solid #0e0e0e; padding:56px 0 36px;">
+    <div class="max-w-5xl mx-auto px-6">
+      <div style="height:1px; background:linear-gradient(to right,transparent,#C4973F33,transparent); margin-bottom:40px;"></div>
+      <div class="shop-footer-grid" style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:40px;">
+        <div class="reveal">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+            <img src="images/logo/Logo final (1).png" alt="Crown Standard Logo" style="width:52px; height:52px; object-fit:contain; background:#000;"/>
+            <div style="line-height:1.35;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:16px; letter-spacing:0.26em; color:#fff; font-weight:700; text-transform:uppercase;">Crown Standard</div>
+              <div style="font-size:13px; color:#C4973F; font-family:'Cormorant Garamond',serif; font-style:italic; letter-spacing:0.12em;">Pre-Wash Hair Oil</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:#aaa; line-height:1.75; max-width:280px; margin:0;">Pure pre-wash oils. No fillers. No fragrance. Two formulas — built for your hair type. Made in Canada.</p>
+        </div>
+        <div>
+          <div style="font-size:11px; letter-spacing:0.32em; color:#C4973F; text-transform:uppercase; margin-bottom:16px;">Navigate</div>
+          <div style="display:flex; flex-direction:column; gap:11px;">
+            <a href="index.html" style="font-size:14px; color:#999; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Home</a>
+            <a href="shop.html" style="font-size:14px; color:#C4973F; text-decoration:none;">Shop</a>
+            <a href="index.html#ingredients" style="font-size:14px; color:#999; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Ingredients</a>
+            <a href="index.html#faq" style="font-size:14px; color:#999; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px; letter-spacing:0.32em; color:#C4973F; text-transform:uppercase; margin-bottom:16px;">Connect</div>
+          <div style="display:flex; flex-direction:column; gap:11px;">
+            <a href="mailto:crownstandardco@gmail.com" style="font-size:14px; color:#999; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">crownstandardco@gmail.com</a>
+            <a href="https://instagram.com/crownstandard.co" target="_blank" style="font-size:14px; color:#999; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#999'">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div style="height:1px; background:#0e0e0e; margin-bottom:20px;"></div>
+      <div class="shop-footer-bottom" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div style="font-size:12px; color:#666;">© 2026 Crown Standard. All rights reserved.</div>
+        <div class="shop-footer-links" style="display:flex; gap:20px;">
+          <a href="privacy.html" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Privacy Policy</a>
+          <a href="terms.html" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Terms of Service</a>
+          <a href="refund.html" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── STICKY CTA BAR (mobile only) ── -->
+  <div class="sticky-cta" id="sticky-cta">
+    <div style="flex:1; min-width:0;">
+      <div id="sticky-price" style="font-size:19px; font-weight:700; color:#1a1208; font-family:'Cormorant Garamond',serif; line-height:1.1;">$70.00</div>
+      <div id="sticky-desc" style="font-size:11px; color:#8b7a68; margin-top:2px; white-space:nowrap;">2 Bottles · $35/bottle</div>
+    </div>
+    <button onclick="goToCheckout()" style="background:linear-gradient(135deg,#A8802A,#D4AF60); color:#060606; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; font-size:11px; padding:14px 24px; border:none; cursor:pointer; border-radius:8px; white-space:nowrap; flex-shrink:0;">Add to Cart →</button>
+  </div>
+
+  <script>
+    // ── Announcement bar ──
+    const annMessages = [
+      'Free Shipping — For a Limited Time',
+      'No Fillers. No Fragrance. No Compromise.',
+      'Made in Canada · Crafted with Intention',
+      'Curl Standard &amp; Straight Standard — Shop Now'
+    ];
+    let annIdx = 0;
+    const annEl = document.getElementById('ann-bar');
+    function rotateAnn() {
+      annEl.style.opacity = '0';
+      setTimeout(() => {
+        annEl.innerHTML = annMessages[annIdx];
+        annEl.style.opacity = '1';
+        annIdx = (annIdx + 1) % annMessages.length;
+      }, 500);
+    }
+    annEl.innerHTML = annMessages[0]; annIdx = 1;
+    setInterval(rotateAnn, 3500);
+
+    // ── State ──
+    let selectedFormula = 'curl';
+    let selectedPack    = 2;
+    let selectedQty     = 1;
+    let activeThumb     = 0;
+
+    const PRICES  = { 1: 34.99,  2: 70,   3: 100 };
+    const SAVINGS = { 1: 0,   2: 8,    3: 17  };
+    const PER_BTL = { 1: '34.99', 2: '35.00', 3: '33.33' };
+
+    const THUMBS = {
+      curl: [
+        'images/product/curl/Hero.png',
+        'images/product/curl/Ingredients.png',
+        'images/product/curl/Lifestyle.png',
+        'images/product/curl/Macro.png',
+      ],
+      wavy: [
+        'images/product/straight/Hero New.png',
+        'images/product/straight/Ingredients.png',
+        'images/product/straight/Lifestyle New.png',
+        'images/product/straight/Macro New.png',
+      ]
+    };
+
+    const DESCRIPTIONS = {
+      curl: 'A cold-pressed pre-wash oil formulated for curl patterns and thicker hair textures. Designed to nourish and support coils, curls, and dense strands from root to tip before every wash.',
+      wavy: 'A cold-pressed pre-wash oil formulated for straight and wavy hair with medium to thick textures. Balances the scalp and conditions each strand without heaviness or buildup.'
+    };
+
+    // ── Thumbnail / dot rendering ──
+    function renderThumbs(formula) {
+      const row = document.getElementById('thumb-row');
+      row.innerHTML = '';
+      const isMobile = window.innerWidth <= 768;
+      THUMBS[formula].forEach((src, i) => {
+        if (isMobile) {
+          const dot = document.createElement('div');
+          dot.className = 'mob-dot' + (i === 0 ? ' active' : '');
+          dot.onclick = () => selectThumb(i);
+          row.appendChild(dot);
+        } else {
+          const img = document.createElement('img');
+          img.src = src; img.className = 'thumb' + (i === 0 ? ' active' : '');
+          img.alt = 'View ' + (i + 1);
+          img.onclick = () => selectThumb(i);
+          row.appendChild(img);
+        }
+      });
+      activeThumb = 0;
+    }
+
+    function selectThumb(idx) {
+      activeThumb = idx;
+      const mainImg = document.getElementById('main-img');
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = THUMBS[selectedFormula][idx];
+        mainImg.style.opacity = '1';
+      }, 150);
+      document.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+      document.querySelectorAll('.mob-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    function shiftThumb(delta) {
+      const next = (activeThumb + delta + 4) % 4;
+      selectThumb(next);
+    }
+
+    // ── Formula selector ──
+    const FORMULA_OILS = {
+      wavy: 'Pumpkin Seed · Flax Seed · Coconut · Almond · Black Seed',
+      curl: 'Pumpkin Seed · Flax Seed · Coconut · Almond · Castor'
+    };
+
+    const ING_FIFTH_HTML = {
+      wavy: `<img src="images/ingredients/Black Seed.png" alt="Black Seed Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/><div style="padding:18px 16px;"><h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Black Seed Oil</h3><p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Lightweight scalp support with natural anti-inflammatory properties.*</p></div>`,
+      curl: `<img src="images/ingredients/Castor Seed.png" alt="Castor Oil" style="width:100%; height:160px; object-fit:contain; background:#fff; display:block;"/><div style="padding:18px 16px;"><h3 style="font-size:14px; font-weight:700; color:#fff; margin:0 0 6px;">Castor Oil</h3><p style="font-size:12px; color:#aaa; margin:0; line-height:1.6;">Rich coating that seals moisture and adds definition to curly strands.*</p></div>`
+    };
+
+    function selectFormula(f) {
+      selectedFormula = f;
+      document.getElementById('fopt-curl').classList.toggle('active', f === 'curl');
+      document.getElementById('fopt-wavy').classList.toggle('active', f === 'wavy');
+      document.getElementById('product-name').textContent = f === 'curl' ? 'Curl Standard' : 'Straight Standard';
+      document.getElementById('product-desc').textContent = DESCRIPTIONS[f];
+      renderThumbs(f);
+      selectThumb(0);
+
+      // Update ingredient bullet
+      document.getElementById('formula-oils-bullet').textContent = FORMULA_OILS[f];
+
+      // Update "What's Inside" formula label
+      document.getElementById('ing-formula-label').textContent = f === 'curl' ? 'Curl Standard' : 'Straight Standard';
+
+      // Swap 5th ingredient card with fade
+      const fifthCard = document.getElementById('ing-fifth');
+      fifthCard.style.opacity = '0';
+      setTimeout(() => { fifthCard.innerHTML = ING_FIFTH_HTML[f]; fifthCard.style.opacity = '1'; }, 200);
+    }
+
+    // ── Pack selector ──
+    function selectPack(p) {
+      selectedPack = p;
+      [1, 2, 3].forEach(n => document.getElementById('ppill-' + n).classList.toggle('active', n === p));
+      updatePricing();
+    }
+
+    // ── Delivery selector ──
+    function selectDelivery(type) {
+      if (type !== 'onetime') return;
+      document.getElementById('del-onetime').classList.add('active');
+    }
+
+    // ── Qty ──
+    function updateQty(val) {
+      selectedQty = parseInt(val);
+    }
+
+    // ── Pricing update ──
+    function updatePricing() {
+      const price   = PRICES[selectedPack];
+      const savings = SAVINGS[selectedPack];
+      const perBtl  = PER_BTL[selectedPack];
+
+      document.getElementById('onetime-price').textContent = '$' + price + '.00';
+
+      let detail = '$' + price + '.00 CAD · $' + perBtl + ' / bottle';
+      if (savings > 0) detail += ' · Save $' + savings + '.00';
+      document.getElementById('onetime-price-detail').textContent = detail;
+
+      // Sync sticky bar
+      const stickyPrice = document.getElementById('sticky-price');
+      const stickyDesc  = document.getElementById('sticky-desc');
+      if (stickyPrice) stickyPrice.textContent = '$' + price + '.00';
+      if (stickyDesc)  stickyDesc.textContent = (selectedPack === 1 ? '1 Bottle' : selectedPack + ' Bottles') + ' · $' + perBtl + '/bottle';
+    }
+
+    // ── Checkout ──
+    const STRIPE_LINKS = {
+      'curl-1': 'https://buy.stripe.com/fZu9AUg2c3UJaqudTL5c401',
+      'curl-2': 'https://buy.stripe.com/5kQ8wQdU40Ix6ae4jb5c402',
+      'curl-3': 'https://buy.stripe.com/00w9AUaHS0Ix7eidTL5c403',
+      'wavy-1': 'https://buy.stripe.com/00w00k03e9f30PU3f75c404',
+      'wavy-2': 'https://buy.stripe.com/3cI4gA7vG76VdCG2b35c405',
+      'wavy-3': 'https://buy.stripe.com/dRmbJ203ecrf1TY8zr5c406',
+    };
+
+    function goToCheckout() {
+      const key = selectedFormula + '-' + selectedPack;
+      const url = STRIPE_LINKS[key];
+      if (url) window.location.href = url;
+    }
+
+    // ── Init ──
+    renderThumbs('curl');
+    updatePricing();
+
+    // URL param pre-selection
+    const params = new URLSearchParams(window.location.search);
+    const formulaParam = params.get('formula');
+    if (formulaParam === 'wavy' || formulaParam === 'curl') selectFormula(formulaParam);
+
+    // ── Touch swipe on image gallery (mobile) ──
+    (function() {
+      const el = document.querySelector('.product-gallery > div:first-child');
+      if (!el) return;
+      let sx = 0;
+      el.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+      el.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) shiftThumb(dx < 0 ? 1 : -1);
+      }, { passive: true });
+    })();
+
+    // ── Mobile nav ──
+    function toggleShopMenu() {
+      const m = document.getElementById('shop-mobile-menu');
+      m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // ── Scroll reveal ──
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -24px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  </script>
+
+</body>
+</html>
