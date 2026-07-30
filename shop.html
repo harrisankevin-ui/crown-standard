@@ -588,8 +588,8 @@
         <div style="font-size:12px; color:#666;">© 2026 Crown Standard. All rights reserved.</div>
         <div class="shop-footer-links" style="display:flex; gap:20px;">
           <a href="privacy.html" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Privacy Policy</a>
-          <a href="#" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Terms of Service</a>
-          <a href="#" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Refund Policy</a>
+          <a href="terms.html" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Terms of Service</a>
+          <a href="refund.html" style="font-size:12px; color:#666; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#666'">Refund Policy</a>
         </div>
       </div>
     </div>
@@ -785,7 +785,8 @@
 
     // URL param pre-selection
     const params = new URLSearchParams(window.location.search);
-    if (params.get('formula') === 'wavy') selectFormula('wavy');
+    const formulaParam = params.get('formula');
+    if (formulaParam === 'wavy' || formulaParam === 'curl') selectFormula(formulaParam);
 
     // ── Touch swipe on image gallery (mobile) ──
     (function() {
