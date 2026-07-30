@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart — Crown Standard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cs-gold': '#C4973F',
+            'cs-gold-light': '#D4AF60',
+            'cs-black': '#060606',
+            'cs-dark': '#0e0e0e',
+          },
+          fontFamily: {
+            'inter': ['Inter', 'sans-serif'],
+            'cormorant': ['"Cormorant Garamond"', 'Georgia', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #060606; color: #e0d8cc; margin: 0; padding: 0; }
+    .gold-line { height: 1px; background: linear-gradient(to right, transparent, #C4973F55, transparent); }
+    .btn-gold { background: linear-gradient(135deg, #A8802A, #D4AF60); color: #060606; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.68rem; transition: all 0.25s; display: inline-block; }
+    .btn-gold:hover { background: linear-gradient(135deg, #D4AF60, #E8C96A); box-shadow: 0 6px 24px rgba(196,151,63,0.28); }
+    .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif; }
+    input[type="text"]:focus { outline: none; border-color: #C4973F66 !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div style="background:#0a0906; border-bottom:1px solid #C4973F1a;" class="text-center py-2.5 text-[10px] font-medium tracking-[0.35em] uppercase">
+    <span style="color:#C4973F;">Launch Offer: Free Shipping on All Orders &nbsp;·&nbsp; Crafted with Intention &nbsp;·&nbsp; Made in Canada</span>
+  </div>
+
+  <!-- Navigation -->
+  <nav style="background:#060606; border-bottom:1px solid #141414;" class="px-8 py-4 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-10">
+      <a href="index.html" class="flex items-center gap-3">
+        <svg class="w-9 h-7 flex-shrink-0" viewBox="0 0 120 90" fill="none">
+          <path d="M10 76 L10 50 L35 18 L60 48 L85 18 L110 50 L110 76" stroke="#C4973F" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <line x1="10" y1="76" x2="110" y2="76" stroke="#C4973F" stroke-width="3"/>
+          <path d="M35 76 L35 56 L44 38" stroke="#C4973F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M85 76 L85 56 L76 38" stroke="#C4973F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <polygon points="60,36 70,50 60,64 50,50" fill="#C4973F"/>
+        </svg>
+        <div class="flex flex-col leading-none">
+          <span class="text-white font-black text-sm tracking-[0.22em] uppercase">Crown Standard</span>
+          <span class="font-cormorant italic text-xs mt-0.5" style="color:#C4973F66;">The standard for crown care</span>
+        </div>
+      </a>
+      <div class="hidden md:flex gap-7 text-[11px] font-medium tracking-[0.12em] uppercase" style="color:#555;">
+        <a href="index.html#shop" class="hover:text-[#C4973F] transition-colors" style="color:inherit;">Shop</a>
+        <a href="index.html#ingredients" class="hover:text-[#C4973F] transition-colors" style="color:inherit;">Ingredients</a>
+        <a href="index.html#how-to-use" class="hover:text-[#C4973F] transition-colors" style="color:inherit;">How to Use</a>
+        <a href="index.html#reviews" class="hover:text-[#C4973F] transition-colors" style="color:inherit;">Reviews</a>
+      </div>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="index.html#shop" class="btn-gold px-5 py-2.5 text-[10px]">Get Your Bottle</a>
+      <a href="cart.html" style="color:#C4973F;" class="relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <span class="absolute -top-2 -right-2 text-[8px] font-bold w-4 h-4 flex items-center justify-center rounded-full" style="background:#C4973F; color:#060606;">2</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="text-center py-10" style="border-bottom:1px solid #141414;">
+    <h1 class="text-sm font-black tracking-[0.4em] uppercase text-white">Your Cart</h1>
+  </div>
+
+  <!-- Cart Content -->
+  <main class="max-w-6xl mx-auto px-8 py-10">
+
+    <!-- Continue Shopping -->
+    <a href="index.html" class="inline-flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase font-semibold mb-8 transition-colors" style="color:#444;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#444'">
+      <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      Continue Shopping
+    </a>
+
+    <!-- Free Shipping Progress Bar -->
+    <div class="mb-10" style="border:1px solid #161616;">
+      <div class="flex items-center" style="background:#0a0906;">
+        <div style="width:78.4%; background:#1e1a14; padding:11px 20px;">
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-white">You're only <span style="color:#C4973F;">$27.00 CAD</span> away from free standard shipping.</p>
+        </div>
+        <div style="flex:1; background:#161616; height:42px;"></div>
+      </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-12">
+
+      <!-- Left: Cart Items -->
+      <div class="flex-1">
+        <div class="gold-line mb-6"></div>
+
+        <!-- Product Row -->
+        <div class="flex gap-6 py-6" style="border-bottom:1px solid #141414;">
+          <!-- Bottle visual -->
+          <div class="flex-shrink-0 flex flex-col items-center" style="width:80px;">
+            <div style="width:10px;height:20px;background:linear-gradient(to bottom,#aaa,#666);border-radius:3px 3px 0 0;margin:0 auto;"></div>
+            <div style="width:16px;height:11px;background:radial-gradient(ellipse,#2e2e2e 40%,#1a1a1a);border-radius:50% 50% 2px 2px;margin:0 auto;"></div>
+            <div style="width:42px;height:9px;background:linear-gradient(to bottom,#C4973F,#8B6914);margin:0 auto;border-radius:1px;box-shadow:0 2px 6px rgba(0,0,0,0.5);"></div>
+            <div style="width:35px;height:10px;background:#0d0b08;margin:0 auto;border-left:1px solid #2a2416;border-right:1px solid #2a2416;"></div>
+            <div style="width:80px;min-height:140px;background:linear-gradient(160deg,#1e1b14 0%,#0d0b08 45%,#1a1710 100%);border-radius:2px 2px 8px 8px;margin:0 auto;border:1px solid #3a3020;box-shadow:inset -6px 0 18px rgba(0,0,0,0.65),0 16px 50px rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;">
+              <div style="margin:10px 7px;padding:10px 8px;border:1px solid #C4973F33;text-align:center;">
+                <svg style="width:22px;height:16px;display:block;margin:0 auto 5px;" viewBox="0 0 120 90" fill="none"><path d="M10 76 L10 50 L35 18 L60 48 L85 18 L110 50 L110 76" stroke="#C4973F" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="10" y1="76" x2="110" y2="76" stroke="#C4973F" stroke-width="3"/><polygon points="60,36 70,50 60,64 50,50" fill="#C4973F"/></svg>
+                <div style="font-size:5.5px;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;color:#e8e0d0;">Crown Standard</div>
+                <div style="height:1px;background:linear-gradient(to right,transparent,#C4973F55,transparent);margin:4px 0;"></div>
+                <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:7px;color:#c8b890;">Hair Retention Oil</div>
+                <div style="font-size:4.5px;color:#444;letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;">2 oz / 60 ml</div>
+              </div>
+            </div>
+            <div style="width:80px;height:7px;background:#050403;border-radius:0 0 6px 6px;margin:0 auto;"></div>
+          </div>
+
+          <!-- Details -->
+          <div class="flex-1">
+            <div class="flex justify-between items-start mb-1">
+              <div>
+                <h3 class="text-sm font-semibold text-white tracking-wide">Crown Retention Oil</h3>
+                <p class="text-[10px] mt-1 tracking-widest uppercase" style="color:#444;">60 ML</p>
+              </div>
+              <div class="text-sm font-bold" style="color:#C4973F;" id="item-total">$98.00 CAD</div>
+            </div>
+            <button class="text-[10px] mt-3 tracking-widest uppercase transition-colors" style="color:#2a2a2a;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#2a2a2a'">Remove</button>
+
+            <!-- Qty control -->
+            <div class="flex items-center mt-4" style="border:1px solid #1e1e1e; width:fit-content;">
+              <button onclick="changeQty(-1)" class="w-10 h-10 flex items-center justify-center text-lg font-light transition-colors" style="color:#555; border-right:1px solid #1e1e1e;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#555'">−</button>
+              <span id="cart-qty" class="w-12 h-10 flex items-center justify-center text-sm text-white font-medium">2</span>
+              <button onclick="changeQty(1)" class="w-10 h-10 flex items-center justify-center text-lg font-light transition-colors" style="color:#555; border-left:1px solid #1e1e1e;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#555'">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="gold-line mt-6"></div>
+      </div>
+
+      <!-- Right: Order Summary -->
+      <div class="lg:w-80 flex-shrink-0">
+        <div style="border:1px solid #161616; background:#0a0906;">
+
+          <!-- Subtotal -->
+          <div class="px-6 pt-6 pb-4" style="border-bottom:1px solid #141414;">
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-[10px] tracking-[0.28em] uppercase font-semibold" style="color:#555;">Subtotal</span>
+              <span id="cart-subtotal" class="text-base font-bold text-white">$98.00 CAD</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-[10px] tracking-[0.28em] uppercase font-semibold" style="color:#555;">Shipping</span>
+              <span class="text-[10px] font-medium" style="color:#444;">Calculated at Checkout</span>
+            </div>
+          </div>
+
+          <!-- Discount Code -->
+          <div class="px-6 py-5" style="border-bottom:1px solid #141414;">
+            <label class="text-[10px] tracking-[0.25em] uppercase font-semibold block mb-2.5" style="color:#C4973F;">Discount Code</label>
+            <div class="flex gap-2">
+              <input type="text" placeholder="Enter code" class="flex-1 px-3 py-2.5 text-xs text-white" style="background:#060606; border:1px solid #1e1e1e; outline:none; letter-spacing:0.05em;" onfocus="this.style.borderColor='#C4973F66'" onblur="this.style.borderColor='#1e1e1e'">
+              <button class="px-4 py-2.5 text-[10px] font-bold tracking-widest uppercase transition-colors" style="border:1px solid #C4973F33; color:#C4973F;" onmouseover="this.style.background='#C4973F18'" onmouseout="this.style.background='transparent'">Apply</button>
+            </div>
+          </div>
+
+          <!-- Checkout Button -->
+          <div class="px-6 py-5" style="border-bottom:1px solid #141414;">
+            <a href="checkout.html" class="btn-gold block text-center py-4 w-full text-[11px]">Checkout</a>
+          </div>
+
+          <!-- Payment Icons -->
+          <div class="px-6 py-4 flex items-center justify-center gap-4 flex-wrap" style="border-bottom:1px solid #141414;">
+            <!-- Shop Pay -->
+            <div class="px-3 py-1.5 rounded" style="background:#5a31f4;">
+              <span class="text-white text-[9px] font-bold tracking-wide">shop<span style="font-weight:300;">pay</span></span>
+            </div>
+            <!-- PayPal -->
+            <div class="px-3 py-1.5 rounded" style="background:#ffc439;">
+              <span class="text-[9px] font-black" style="color:#003087;">Pay</span><span class="text-[9px] font-black" style="color:#009cde;">Pal</span>
+            </div>
+            <!-- Meta Pay -->
+            <div class="px-3 py-1.5 rounded" style="background:#1877f2;">
+              <span class="text-white text-[9px] font-bold tracking-wide">Meta Pay</span>
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="px-6 py-5 flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full" style="border:1.5px solid #2a2a2a;">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:#C4973F;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <div>
+                <div class="text-[10px] font-bold tracking-[0.15em] uppercase text-white">30 Day Money Back Guarantee</div>
+              </div>
+            </div>
+            <div style="height:1px;background:#141414;"></div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full" style="border:1.5px solid #2a2a2a;">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:#C4973F;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              </div>
+              <div>
+                <div class="text-[10px] font-bold tracking-[0.15em] uppercase text-white">Fully Secure Checkout</div>
+                <div class="text-[9px] mt-0.5" style="color:#444;">Verified 256-bit SSL Encryption</div>
+              </div>
+            </div>
+            <div style="height:1px;background:#141414;"></div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full" style="border:1.5px solid #2a2a2a;">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:#C4973F;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <div class="text-[10px] font-bold tracking-[0.15em] uppercase text-white">Questions?</div>
+                <div class="text-[9px] mt-0.5" style="color:#444;">Check our <a href="index.html#faq" style="color:#C4973F;">FAQ</a> or <a href="mailto:crownstandardco@gmail.com" style="color:#C4973F;">email us</a></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background:#030303; border-top:1px solid #0e0e0e;" class="py-14 px-8 mt-16">
+    <div class="max-w-5xl mx-auto">
+      <div class="gold-line mb-12"></div>
+      <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
+        <div class="md:w-2/5">
+          <div class="flex items-center gap-3 mb-4">
+            <svg class="w-10 h-8" viewBox="0 0 120 90" fill="none">
+              <path d="M10 76 L10 50 L35 18 L60 48 L85 18 L110 50 L110 76" stroke="#C4973F" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+              <line x1="10" y1="76" x2="110" y2="76" stroke="#C4973F" stroke-width="3"/>
+              <path d="M35 76 L35 56 L44 38" stroke="#C4973F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <path d="M85 76 L85 56 L76 38" stroke="#C4973F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <polygon points="60,36 70,50 60,64 50,50" fill="#C4973F"/>
+            </svg>
+            <div>
+              <div class="text-white font-black text-base tracking-[0.22em] uppercase">Crown Standard</div>
+              <div class="font-cormorant italic text-sm" style="color:#C4973F44;">The standard for crown care.</div>
+            </div>
+          </div>
+          <p class="text-xs leading-relaxed max-w-xs" style="color:#222;">Premium grooming starts at the root. Single cold-pressed oils — no fillers, no fragrance, no additives. Made in Canada.</p>
+        </div>
+        <div>
+          <div class="text-[10px] tracking-[0.3em] uppercase font-semibold mb-4" style="color:#C4973F33;">Navigate</div>
+          <div class="flex flex-col gap-2.5">
+            <a href="index.html#shop" class="text-xs tracking-wide transition-colors" style="color:#282828;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#282828'">Shop</a>
+            <a href="index.html#ingredients" class="text-xs tracking-wide transition-colors" style="color:#282828;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#282828'">Ingredients</a>
+            <a href="index.html#faq" class="text-xs tracking-wide transition-colors" style="color:#282828;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#282828'">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <div class="text-[10px] tracking-[0.3em] uppercase font-semibold mb-4" style="color:#C4973F33;">Connect</div>
+          <div class="flex flex-col gap-3">
+            <a href="https://instagram.com/crownstandard.co" target="_blank" class="flex items-center gap-2 text-xs transition-colors" style="color:#282828;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#282828'">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              @crownstandard.co
+            </a>
+            <a href="mailto:crownstandardco@gmail.com" class="flex items-center gap-2 text-xs transition-colors" style="color:#282828;" onmouseover="this.style.color='#C4973F'" onmouseout="this.style.color='#282828'">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              crownstandardco@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="gold-line mb-6"></div>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-[11px] tracking-wide" style="color:#181818;">© 2026 Crown Standard. All rights reserved.</div>
+        <div class="flex flex-wrap gap-5 text-[11px]" style="color:#181818;">
+          <a href="privacy.html" onmouseover="this.style.color='#C4973F44'" onmouseout="this.style.color='#181818'">Privacy Policy</a>
+          <a href="terms.html" onmouseover="this.style.color='#C4973F44'" onmouseout="this.style.color='#181818'">Terms of Service</a>
+          <a href="refund.html" onmouseover="this.style.color='#C4973F44'" onmouseout="this.style.color='#181818'">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let cartQty = 2;
+    const unitPrice = 34.99;
+
+    function changeQty(delta) {
+      cartQty = Math.max(1, cartQty + delta);
+      const total = (unitPrice * cartQty).toFixed(2);
+      document.getElementById('cart-qty').textContent = cartQty;
+      document.getElementById('item-total').textContent = '$' + total + ' CAD';
+      document.getElementById('cart-subtotal').textContent = '$' + total + ' CAD';
+    }
+  </script>
+</body>
+</html>
