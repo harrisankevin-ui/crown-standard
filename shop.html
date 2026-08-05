@@ -244,8 +244,33 @@
       }
       .shop-swipe-hint { display: block !important; margin-top: 8px !important; }
 
-      /* ----- CTA section ----- */
-      .shop-cta-section { padding: 64px 20px !important; }
+      /* ----- Our Promise (5 No's) carousel ----- */
+      .nos-inner { padding-left: 0 !important; padding-right: 0 !important; overflow: hidden !important; }
+      .nos-grid {
+        display: flex !important;
+        overflow-x: scroll !important;
+        scroll-snap-type: x proximity !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        border: none !important;
+        gap: 10px !important;
+        padding: 0 24px 24px !important;
+        grid-template-columns: unset !important;
+      }
+      .nos-grid::-webkit-scrollbar { display: none !important; }
+      .nos-grid > div {
+        flex: 0 0 78% !important;
+        scroll-snap-align: start !important;
+        border: 1px solid #D4CFC8 !important;
+        padding: 36px 24px !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 200px !important;
+      }
+      .nos-swipe-hint { display: block !important; margin-top: 8px !important; }
 
       /* ----- Footer ----- */
       .shop-footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
@@ -530,6 +555,42 @@
 
       <p class="shop-swipe-hint" style="font-size:10px; letter-spacing:0.22em; color:#555; text-transform:uppercase; margin:0; padding:0 0 4px; text-align:center;">← Swipe to explore →</p>
       <p style="font-size:11px; color:#555; margin-top:18px; text-align:center; line-height:1.6;">*Results may vary. Crown Standard is a pre-wash hair and scalp treatment, not a medical hair-loss product.</p>
+    </div>
+  </section>
+
+  <!-- OUR PROMISE — 5 No's -->
+  <section style="background:#F0EDE6; border-top:1px solid #D4CFC8; border-bottom:1px solid #D4CFC8; padding:96px 24px;">
+    <div class="nos-inner max-w-5xl mx-auto" style="text-align:center;">
+      <div style="display:inline-flex; align-items:center; gap:12px; margin-bottom:20px;">
+        <div style="width:32px; height:1px; background:#8B691433;"></div>
+        <span style="font-size:12px; letter-spacing:0.38em; color:#7a5a10; text-transform:uppercase;">Our Promise</span>
+        <div style="width:32px; height:1px; background:#8B691433;"></div>
+      </div>
+      <h2 class="font-cormorant" style="font-size:clamp(36px,5vw,56px); font-weight:700; color:#1a1208; line-height:1.05; margin:0 0 16px;">The Crown Standard.</h2>
+      <p style="font-size:16px; color:#5a4428; max-width:440px; margin:0 auto 64px; line-height:1.75;">What we put in our formulas matters. What we leave out matters more.</p>
+      <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:0; border:1px solid #D4CFC8;" class="nos-grid">
+        <div style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Fillers.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">Every drop is functional.</p>
+        </div>
+        <div style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Fragrance.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">The only scent is the oil itself.</p>
+        </div>
+        <div style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Synthetics.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">Nothing that doesn't belong.</p>
+        </div>
+        <div style="padding:40px 28px; border-right:1px solid #D4CFC8;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Preservatives.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">Cold-pressed. Shelf-stable. Clean.</p>
+        </div>
+        <div style="padding:40px 28px;">
+          <p class="font-cormorant" style="font-size:clamp(24px,3vw,36px); font-weight:700; font-style:italic; color:#1a1208; margin:0 0 10px; line-height:1.1;">No Compromise.</p>
+          <p style="font-size:15px; color:#5a4428; line-height:1.65; margin:0;">The standard applies to everything.</p>
+        </div>
+      </div>
+      <p class="nos-swipe-hint" style="font-size:10px; letter-spacing:0.22em; color:#7a5a10; text-transform:uppercase; margin:0; padding:0 20px;">← Swipe →</p>
     </div>
   </section>
 
