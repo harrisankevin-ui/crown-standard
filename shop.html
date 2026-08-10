@@ -376,6 +376,7 @@
           </div>
 
           <!-- ── PACK SIZE ── -->
+          <div id="pack-size-section">
           <span class="sel-label">Choose pack size:</span>
           <div style="display:flex; gap:8px; margin-bottom:24px;">
             <div class="pack-pill active" id="ppill-1" onclick="selectPack(1)">
@@ -395,6 +396,7 @@
               <div style="font-size:10px; color:#8b7a68; margin-top:2px;">$30.00 / bottle</div>
             </div>
           </div>
+          </div><!-- /pack-size-section -->
 
           <div class="dark-divider" style="margin-bottom:24px;"></div>
 
@@ -410,15 +412,16 @@
             <div id="onetime-price" style="font-size:18px; font-weight:700; color:#1a1208;">$34.99</div>
           </div>
 
-          <div class="delivery-row disabled" id="del-subscribe">
+          <div class="delivery-row" id="del-subscribe" onclick="selectDelivery('subscribe')">
             <div class="d-radio"></div>
             <div style="flex:1;">
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:3px;">
-                <span style="font-size:13px; font-weight:600; color:#5a4428;">Subscribe &amp; Save</span>
-                <span style="font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border:1px solid #C4973F44; color:#C4973F88; padding:2px 8px;">Coming Soon</span>
+                <span style="font-size:13px; font-weight:600; color:#1a1208;">Subscribe &amp; Save 15%</span>
+                <span style="font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:linear-gradient(135deg,#A8802A,#D4AF60); color:#060606; padding:2px 8px; border-radius:3px;">Best Value</span>
               </div>
-              <div style="font-size:12px; color:#8b7a68;">Save up to 15% with a subscription</div>
+              <div style="font-size:12px; color:#6b5e4a;">1 bottle/month · 4-month commitment, then cancel anytime</div>
             </div>
+            <div style="font-size:18px; font-weight:700; color:#C4973F;">$29.74</div>
           </div>
 
           <!-- ── QUANTITY ── -->
@@ -433,7 +436,7 @@
 
           <!-- ── ADD TO CART (desktop) / hidden on mobile by .main-cta-wrap ── -->
           <div class="main-cta-wrap">
-            <button onclick="goToCheckout()" class="btn-gold" style="width:100%; padding:18px; font-size:11px; letter-spacing:0.2em; display:block;">
+            <button id="main-cta-btn" onclick="goToCheckout()" class="btn-gold" style="width:100%; padding:18px; font-size:11px; letter-spacing:0.2em; display:block;">
               Add to Cart &rarr;
             </button>
             <!-- Trust line -->
@@ -581,7 +584,7 @@
       <div id="sticky-price" style="font-size:19px; font-weight:700; color:#1a1208; line-height:1.1;">$34.99</div>
       <div id="sticky-desc" style="font-size:11px; color:#8b7a68; margin-top:2px; white-space:nowrap;">1 Bottle · $34.99/bottle</div>
     </div>
-    <button onclick="goToCheckout()" style="background:linear-gradient(135deg,#A8802A,#D4AF60); color:#060606; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; font-size:11px; padding:14px 24px; border:none; cursor:pointer; border-radius:8px; white-space:nowrap; flex-shrink:0;">Add to Cart →</button>
+    <button id="sticky-cta-btn" onclick="goToCheckout()" style="background:linear-gradient(135deg,#A8802A,#D4AF60); color:#060606; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; font-size:11px; padding:14px 24px; border:none; cursor:pointer; border-radius:8px; white-space:nowrap; flex-shrink:0;">Add to Cart →</button>
   </div>
 
   <script>
@@ -606,10 +609,11 @@
     setInterval(rotateAnn, 3500);
 
     // ── State ──
-    let selectedFormula = 'curl';
-    let selectedPack    = 1;
-    let selectedQty     = 1;
-    let activeThumb     = 0;
+    let selectedFormula  = 'curl';
+    let selectedPack     = 1;
+    let selectedQty      = 1;
+    let activeThumb      = 0;
+    let selectedDelivery = 'onetime';
 
     const PRICES  = { 1: 34.99,  2: 64.99, 3: 89.99 };
     const SAVINGS = { 1: 0,      2: 5,     3: 15    };
@@ -715,8 +719,16 @@
 
     // ── Delivery selector ──
     function selectDelivery(type) {
-      if (type !== 'onetime') return;
-      document.getElementById('del-onetime').classList.add('active');
+      selectedDelivery = type;
+      document.getElementById('del-onetime').classList.toggle('active', type === 'onetime');
+      document.getElementById('del-subscribe').classList.toggle('active', type === 'subscribe');
+      document.getElementById('pack-size-section').style.display = type === 'subscribe' ? 'none' : '';
+      const label = type === 'subscribe' ? 'Subscribe →' : 'Add to Cart →';
+      const mainBtn = document.getElementById('main-cta-btn');
+      const stickyBtn = document.getElementById('sticky-cta-btn');
+      if (mainBtn) mainBtn.textContent = label;
+      if (stickyBtn) stickyBtn.textContent = label;
+      updatePricing();
     }
 
     // ── Qty ──
@@ -726,6 +738,17 @@
 
     // ── Pricing update ──
     function updatePricing() {
+      const stickyPrice = document.getElementById('sticky-price');
+      const stickyDesc  = document.getElementById('sticky-desc');
+
+      if (selectedDelivery === 'subscribe') {
+        document.getElementById('onetime-price').textContent = '';
+        document.getElementById('onetime-price-detail').textContent = '';
+        if (stickyPrice) stickyPrice.textContent = '$29.74/mo';
+        if (stickyDesc)  stickyDesc.textContent = '1 Bottle/month · Save 15%';
+        return;
+      }
+
       const price   = PRICES[selectedPack];
       const savings = SAVINGS[selectedPack];
       const perBtl  = PER_BTL[selectedPack];
@@ -736,9 +759,6 @@
       if (savings > 0) detail += ' · Save $' + savings + '.00';
       document.getElementById('onetime-price-detail').textContent = detail;
 
-      // Sync sticky bar
-      const stickyPrice = document.getElementById('sticky-price');
-      const stickyDesc  = document.getElementById('sticky-desc');
       if (stickyPrice) stickyPrice.textContent = '$' + price.toFixed(2);
       if (stickyDesc)  stickyDesc.textContent = (selectedPack === 1 ? '1 Bottle' : selectedPack + ' Bottles') + ' · $' + perBtl + '/bottle';
     }
@@ -753,7 +773,17 @@
       'wavy-3': 'https://buy.stripe.com/00w28s7vGbnbdCGaHz5c40a',
     };
 
+    const STRIPE_SUB_LINKS = {
+      'curl': 'https://buy.stripe.com/7sY14og2c76VdCG8zr5c40d',
+      'wavy': 'https://buy.stripe.com/dRmaEYaHS9f3eGK7vn5c40e',
+    };
+
     function goToCheckout() {
+      if (selectedDelivery === 'subscribe') {
+        const url = STRIPE_SUB_LINKS[selectedFormula];
+        if (url) window.location.href = url;
+        return;
+      }
       const key = selectedFormula + '-' + selectedPack;
       const url = STRIPE_LINKS[key];
       if (url) window.location.href = url;
